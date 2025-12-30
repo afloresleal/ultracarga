@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Datos del Vehículo - Ultracarga</title>
+
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="container-fluid px-4">
+      <div class="d-flex justify-content-between align-items-center py-3">
+        <a href="index.html" class="header__logo">
+          <img src="ultra-carga-horizontal_logo-blanco.png" alt="Ultracarga">
+        </a>
+        <select class="form-select form-select-sm" style="width: auto; background-color: rgba(255,255,255,0.1); color: white; border-color: rgba(255,255,255,0.2);">
+          <option value="es">ES</option>
+          <option value="en">EN</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <!-- PROGRESS BAR -->
+  <div class="progress-bar-wizard">
+    <div class="progress-step progress-step--completed">
+      <div class="progress-step__number">✓</div>
+      <div class="progress-step__label">Ruta</div>
+    </div>
+    <div class="progress-step progress-step--active">
+      <div class="progress-step__number">2</div>
+      <div class="progress-step__label">Vehículo</div>
+    </div>
+    <div class="progress-step">
+      <div class="progress-step__number">3</div>
+      <div class="progress-step__label">Horario</div>
+    </div>
+    <div class="progress-step">
+      <div class="progress-step__number">4</div>
+      <div class="progress-step__label">Datos</div>
+    </div>
+    <div class="progress-step">
+      <div class="progress-step__number">5</div>
+      <div class="progress-step__label">Pago</div>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="container py-4" style="max-width: 800px;">
+    <h2 class="h4 fw-bold text-uc-secondary mb-4">Información del vehículo</h2>
+
+    <!-- RESIDENT TOGGLE -->
+    <div class="card mb-4" style="background: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%); border: 2px solid #2196F3;">
+      <div class="card-body">
+        <div class="d-flex align-items-center justify-content-between">
+          <div class="d-flex align-items-center gap-3">
+            <div class="fs-4">🏖️</div>
+            <div>
+              <h6 class="fw-bold text-uc-secondary mb-1">¿Eres residente de Quintana Roo?</h6>
+              <p class="small text-muted mb-0">Obtén precios preferenciales</p>
+            </div>
+          </div>
+          <div class="form-check form-switch">
+            <input class="form-check-input" type="checkbox" id="residentToggle" onchange="toggleResidentPrices()" style="width: 3em; height: 1.5em; cursor: pointer;">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <form id="vehicleForm">
+      <!-- PASSENGERS SECTION -->
+      <div class="mb-4">
+        <h6 class="fw-bold text-uc-secondary mb-3">👥 Pasajeros</h6>
+
+        <div class="row g-2">
+          <!-- OPTION 1: PASSENGER -->
+          <div class="col-12">
+            <div class="card card-selectable" onclick="selectVehicleType(this, 'passenger')" data-vehicle-type="passenger">
+              <div class="card-body py-2 px-3">
+                <div class="d-flex align-items-center gap-2">
+                  <input type="radio" name="vehicleType" value="passenger" id="passenger" class="form-check-input">
+                  <div class="flex-grow-1">
+                    <h6 class="card-title mb-0 text-uc-secondary">👤 Pasajero</h6>
+                    <p class="card-text text-muted small mb-1">Sin vehículo (la cantidad de niños/adultos se especifica en el paso 4)</p>
+                    <p class="fw-bold text-uc-secondary mb-0 vehicle-price" data-regular="265" data-resident="240">$265 MXN</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- VEHICLES SECTION -->
+      <div class="mb-4">
+        <h6 class="fw-bold text-uc-secondary mb-3">🚗 Vehículos</h6>
+
+        <div class="row g-2">
+          <!-- OPTION 3: MOTORCYCLE -->
+          <div class="col-12 col-md-6">
+            <div class="card card-selectable h-100" onclick="selectVehicleType(this, 'motorcycle')" data-vehicle-type="motorcycle">
+              <div class="card-body py-2 px-3">
+                <div class="d-flex align-items-center gap-2">
+                  <input type="radio" name="vehicleType" value="motorcycle" id="motorcycle" class="form-check-input">
+                  <div class="flex-grow-1">
+                    <h6 class="card-title mb-0 text-uc-secondary">🏍️ Motocicleta</h6>
+                    <p class="card-text text-muted small mb-1">Hasta 500 kg</p>
+                    <p class="fw-bold text-uc-secondary mb-0 vehicle-price" data-regular="280" data-resident="250">$280 MXN</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- OPTION 4: CAR (SELECTED) -->
+          <div class="col-12 col-md-6">
+            <div class="card card-selectable selected h-100" onclick="selectVehicleType(this, 'car')" data-vehicle-type="car">
+              <div class="card-body py-2 px-3">
+                <div class="d-flex align-items-center gap-2">
+                  <input type="radio" name="vehicleType" value="car" id="car" checked class="form-check-input">
+                  <div class="flex-grow-1">
+                    <h6 class="card-title mb-0 text-uc-secondary">🚗 Automóvil</h6>
+                    <p class="card-text text-muted small mb-1">Sedán, hatchback, compacto</p>
+                    <p class="fw-bold text-uc-secondary mb-0 vehicle-price" data-regular="450" data-resident="400">$450 MXN</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- OPTION 5: SUV -->
+          <div class="col-12 col-md-6">
+            <div class="card card-selectable h-100" onclick="selectVehicleType(this, 'suv')" data-vehicle-type="suv">
+              <div class="card-body py-2 px-3">
+                <div class="d-flex align-items-center gap-2">
+                  <input type="radio" name="vehicleType" value="suv" id="suv" class="form-check-input">
+                  <div class="flex-grow-1">
+                    <h6 class="card-title mb-0 text-uc-secondary">🚙 Camioneta/SUV</h6>
+                    <p class="card-text text-muted small mb-1">Pick-up, van, SUV</p>
+                    <p class="fw-bold text-uc-secondary mb-0 vehicle-price" data-regular="620" data-resident="550">$620 MXN</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+        <!-- OPTION 4: TRUCK -->
+        <!--<div class="card card-selectable" onclick="selectVehicleType(this, 'truck', 1200)">
+          <div class="card-body">
+            <div class="d-flex align-items-center gap-3">
+              <input type="radio" name="vehicleType" value="truck" id="truck" class="form-check-input">
+              <div class="flex-grow-1">
+                <h6 class="card-title mb-1 text-uc-secondary">🚚 Camión de Carga</h6>
+                <p class="card-text text-muted small mb-1">Hasta 3.5 toneladas</p>
+                <p class="fw-bold text-uc-secondary mb-0">$1,200 MXN</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>-->
+
+
+      <!-- VEHICLE RESTRICTIONS BANNER -->
+      <div class="alert alert-warning2 d-none" id="vehicleRestrictions" style="border: 2px solid #FBE304; background: #fffbeb;">
+        <div class="d-flex align-items-start gap-2">
+          <div class="fs-4">⚠️</div>
+          <div class="flex-grow-1">
+            <h6 class="fw-bold mb-2">Restricciones de tamaño y peso</h6>
+            <div id="restrictionsContent"></div>
+
+            <div class="form-check mt-3">
+              <input
+                class="form-check-input"
+                type="checkbox"
+                id="confirmRestrictions"
+                onchange="toggleContinueButton()"
+              >
+              <label class="form-check-label fw-semibold" for="confirmRestrictions">
+                Confirmo que mi vehículo cumple con estas medidas (incluyendo todos los accesorios)
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+            <hr class="my-4">
+
+
+      <!-- VEHICLE DETAILS -->
+      <h5 class="h6 fw-bold text-uc-secondary mb-3">Datos del vehículo</h5>
+
+      <div class="mb-3">
+        <label for="licensePlate" class="form-label">Placas</label>
+        <input
+          type="text"
+          id="licensePlate"
+          class="form-control"
+          placeholder="ABC-123-4"
+          oninput="formatLicensePlate(this)"
+        >
+      </div>
+
+      <div class="mb-3">
+        <label for="brand" class="form-label">Marca</label>
+        <input
+          type="text"
+          id="brand"
+          class="form-control"
+          placeholder="Toyota"
+        >
+      </div>
+
+      <div class="mb-3">
+        <label for="model" class="form-label">Modelo</label>
+        <input
+          type="text"
+          id="model"
+          class="form-control"
+          placeholder="Corolla"
+        >
+      </div>
+
+      <!-- NAVIGATION BUTTONS -->
+      <button type="button" class="btn btn-primary btn-lg w-100 mb-3" id="continueBtn" onclick="goToPassengerData()">
+        Continuar
+      </button>
+
+      <a href="step1-date.html" class="d-inline-flex align-items-center gap-1 text-decoration-none text-muted small">
+        ← Anterior
+      </a>
+    </form>
+  </div>
+
+  <!-- Bootstrap 5 JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- JAVASCRIPT -->
+  <script>
+    let vehiclePrice = 450; // Default car price
+    let isResident = false;
+
+    // Vehicle restrictions
+    const vehicleRestrictions = {
+      'passenger': null, // No vehicle, no restrictions
+      'motorcycle': {
+        length: '2.5m',
+        height: '1.5m',
+        weight: '500kg',
+        description: 'Tu motocicleta debe cumplir con las siguientes medidas <strong>TOTALES</strong> (incluyendo cualquier accesorio, equipaje, parabrisas, baúles, etc.):'
+      },
+      'car': {
+        length: '5.50m',
+        height: '1.90m',
+        weight: '2 toneladas',
+        description: 'Tu automóvil debe cumplir con las siguientes medidas <strong>TOTALES</strong> (incluyendo racks, portaequipajes, antenas, equipaje en techo, etc.):'
+      },
+      'suv': {
+        length: '5.50m',
+        height: '1.90m',
+        weight: '3 toneladas',
+        description: 'Tu camioneta/SUV debe cumplir con las siguientes medidas <strong>TOTALES</strong> (incluyendo racks, portaequipajes, antenas, bicicletas, equipaje en techo, etc.):'
+      }
+    };
+
+    function toggleResidentPrices() {
+      const toggle = document.getElementById('residentToggle');
+      isResident = toggle.checked;
+
+      // Update all price displays
+      document.querySelectorAll('.vehicle-price').forEach(priceElement => {
+        const regularPrice = parseInt(priceElement.getAttribute('data-regular'));
+        const residentPrice = parseInt(priceElement.getAttribute('data-resident'));
+        const currentPrice = isResident ? residentPrice : regularPrice;
+
+        priceElement.textContent = `$${currentPrice} MXN`;
+      });
+
+      // Update current selection price
+      const selectedCard = document.querySelector('.card-selectable.selected');
+      if (selectedCard) {
+        const priceElement = selectedCard.querySelector('.vehicle-price');
+        const price = isResident
+          ? parseInt(priceElement.getAttribute('data-resident'))
+          : parseInt(priceElement.getAttribute('data-regular'));
+
+        vehiclePrice = price;
+        localStorage.setItem('vehiclePrice', price);
+      }
+
+      // Store resident status
+      localStorage.setItem('isResident', isResident);
+    }
+
+    function selectVehicleType(card, vehicleType) {
+      // Remove previous selection
+      document.querySelectorAll('.card-selectable').forEach(c => {
+        c.classList.remove('selected');
+      });
+
+      // Add selection
+      card.classList.add('selected');
+
+      // Check radio button
+      document.getElementById(vehicleType).checked = true;
+
+      // Get price based on resident status
+      const priceElement = card.querySelector('.vehicle-price');
+      const price = isResident
+        ? parseInt(priceElement.getAttribute('data-resident'))
+        : parseInt(priceElement.getAttribute('data-regular'));
+
+      // Update price
+      vehiclePrice = price;
+
+      // Store selection
+      localStorage.setItem('vehicleType', vehicleType);
+      localStorage.setItem('vehiclePrice', price);
+
+      // Show/hide restrictions banner
+      const restrictionsBanner = document.getElementById('vehicleRestrictions');
+      const restrictionsContent = document.getElementById('restrictionsContent');
+      const confirmCheckbox = document.getElementById('confirmRestrictions');
+      const continueBtn = document.getElementById('continueBtn');
+
+      if (vehicleRestrictions[vehicleType]) {
+        const restrictions = vehicleRestrictions[vehicleType];
+
+        // Build restrictions HTML
+        restrictionsContent.innerHTML = `
+          <p class="mb-2 small">${restrictions.description}</p>
+          <ul class="mb-2 small">
+            <li><strong>Longitud máxima:</strong> ${restrictions.length}</li>
+            <li><strong>Altura máxima:</strong> ${restrictions.height}</li>
+            <li><strong>Peso máximo:</strong> ${restrictions.weight}</li>
+          </ul>
+          <div class="mb-0 p-2 rounded" style="font-size: 0.85rem; background-color: #fee2e2; border-left: 4px solid #dc3545;">
+            <strong>Si tu vehículo excede estas medidas (con o sin accesorios), es probable que NO pueda abordar o debas pagar una diferencia en el puerto.</strong>
+          </div>
+        `;
+
+        // Show banner, uncheck checkbox, disable button
+        restrictionsBanner.classList.remove('d-none');
+        confirmCheckbox.checked = false;
+        continueBtn.disabled = true;
+      } else {
+        // Passenger - no restrictions, hide banner and enable button
+        restrictionsBanner.classList.add('d-none');
+        continueBtn.disabled = false;
+      }
+    }
+
+    function toggleContinueButton() {
+      const confirmCheckbox = document.getElementById('confirmRestrictions');
+      const continueBtn = document.getElementById('continueBtn');
+      continueBtn.disabled = !confirmCheckbox.checked;
+    }
+
+    function formatLicensePlate(input) {
+      // Auto-format license plate to ABC-123-4
+      let value = input.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+
+      if (value.length <= 3) {
+        input.value = value;
+      } else if (value.length <= 6) {
+        input.value = value.slice(0, 3) + '-' + value.slice(3);
+      } else {
+        input.value = value.slice(0, 3) + '-' + value.slice(3, 6) + '-' + value.slice(6, 7);
+      }
+    }
+
+    function goToPassengerData() {
+      // Store form data
+      localStorage.setItem('licensePlate', document.getElementById('licensePlate').value);
+      localStorage.setItem('brand', document.getElementById('brand').value);
+      localStorage.setItem('model', document.getElementById('model').value);
+
+      // Navigate to schedule (now step 3)
+      window.location.href = 'step3-schedule.html';
+    }
+
+    // Initialize restrictions for pre-selected vehicle on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      // Check if there's a pre-selected vehicle (car is pre-selected by default)
+      const preSelectedVehicle = document.querySelector('input[name="vehicleType"]:checked');
+
+      if (preSelectedVehicle) {
+        const vehicleType = preSelectedVehicle.value;
+        const selectedCard = document.querySelector('.card-selectable.selected');
+
+        // Show restrictions banner for the pre-selected vehicle
+        const restrictionsBanner = document.getElementById('vehicleRestrictions');
+        const restrictionsContent = document.getElementById('restrictionsContent');
+        const confirmCheckbox = document.getElementById('confirmRestrictions');
+        const continueBtn = document.getElementById('continueBtn');
+
+        if (vehicleRestrictions[vehicleType]) {
+          const restrictions = vehicleRestrictions[vehicleType];
+
+          // Build restrictions HTML
+          restrictionsContent.innerHTML = `
+            <p class="mb-2 small">Medidas <strong>TOTALES</strong> (incluyendo racks, equipaje, cualquier accesorio):</p>
+            <div class="d-flex gap-3 mb-2 small">
+              <div><strong>📏</strong> Largo: <strong>${restrictions.length}</strong></div>
+              <div><strong>📐</strong> Alto: <strong>${restrictions.height}</strong></div>
+              <div><strong>⚖️</strong> Peso: <strong>${restrictions.weight}</strong></div>
+            </div>
+          
+            <div class="mt-3 small p-2 rounded" style="background-color: #fee2e2; border: 1px solid #dc3545; color: #dc3545">
+              <strong>Si excedes estas medidas, es probable que NO puedas abordar o debas pagar diferencia en el puerto.</strong>
+            </div>
+          `;
+
+          // Show banner, ensure checkbox is unchecked, disable button
+          restrictionsBanner.classList.remove('d-none');
+          confirmCheckbox.checked = false;
+          continueBtn.disabled = true;
+        }
+      }
+    });
+  </script>
+
+</body>
+</html>

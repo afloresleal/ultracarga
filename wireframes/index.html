@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ultracarga - Reserva tu Ferry</title>
+
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="container-fluid px-4">
+      <div class="d-flex justify-content-between align-items-center py-3">
+        <a href="index.html" class="header__logo">
+          <img src="ultra-carga-horizontal_logo-blanco.png" alt="Ultracarga">
+        </a>
+        <select class="form-select form-select-sm" style="width: auto; background-color: rgba(255,255,255,0.1); color: white; border-color: rgba(255,255,255,0.2);">
+          <option value="es">ES</option>
+          <option value="en">EN</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <!-- CONTAINER -->
+  <div class="container" style="max-width: 800px;">
+    <div class="mt-5"></div>
+    <!-- HERO SECTION -->
+    <section class="hero mb-4">
+      <div class="hero__image">
+        Banner Hero
+      </div>
+      <div class="p-4">
+        <h1 class="hero__title mb-3">Reserva tu espacio en el ferry</h1>
+        <p class="hero__subtitle mb-0">
+          Viaja con tu vehículo a Cozumel o Isla Mujeres de manera segura y confiable
+        </p>
+      </div>
+    </section>
+
+    <!-- ROUTE SELECTOR -->
+    <section class="py-4" id="routes">
+      <div class="mb-1">
+        <small class="text-uppercase text-muted fw-semibold">Paso 1 de 5</small>
+      </div>
+      <h2 class="h4 fw-bold text-uc-secondary mb-4">Selecciona tu ruta</h2>
+
+      <div class="row g-3">
+        <!-- ROUTE CARD 1 -->
+        <div class="col-12 col-md-6">
+          <div class="card card-selectable h-100" id="routeCard1" style="cursor: pointer;">
+            <div class="card-body d-flex flex-column">
+              <div class="text-center fs-1 mb-3">🚢</div>
+              <h5 class="card-title text-uc-secondary fw-bold mb-1">Playa del Carmen</h5>
+              <p class="card-text text-muted small mb-2">Puerto Calica</p>
+              <div class="text-center fs-2 my-3">↓</div>
+              <h5 class="card-title text-uc-secondary fw-bold mb-3">Cozumel</h5>
+
+              <hr>
+
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <div>
+                  <div class="fs-5 fw-bold text-uc-secondary">Desde $450 MXN</div>
+                  <small class="text-muted">🕐 45 min travesía</small>
+                </div>
+              </div>
+
+              <div class="d-flex align-items-center gap-2 mb-3">
+                <span class="badge rounded-pill" style="background-color: var(--color-success); width: 10px; height: 10px; padding: 0;"></span>
+                <small class="text-muted">Alta disponibilidad</small>
+              </div>
+
+              <div class="text-center py-2 fw-semibold text-uc-secondary mt-auto">
+                Click para seleccionar →
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ROUTE CARD 2 -->
+        <div class="col-12 col-md-6">
+          <div class="card card-selectable h-100" id="routeCard2" style="cursor: pointer;">
+            <div class="card-body d-flex flex-column">
+              <div class="text-center fs-1 mb-3">⛴️</div>
+              <h5 class="card-title text-uc-secondary fw-bold mb-1">Cancún</h5>
+              <p class="card-text text-muted small mb-2">Punta Sam</p>
+              <div class="text-center fs-2 my-3">↓</div>
+              <h5 class="card-title text-uc-secondary fw-bold mb-3">Isla Mujeres</h5>
+
+              <hr>
+
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <div>
+                  <div class="fs-5 fw-bold text-uc-secondary">Desde $380 MXN</div>
+                  <small class="text-muted">🕐 20 min travesía</small>
+                </div>
+              </div>
+
+              <div class="d-flex align-items-center gap-2 mb-3">
+                <span class="badge rounded-pill" style="background-color: var(--color-warning); width: 10px; height: 10px; padding: 0;"></span>
+                <small class="text-muted">Espacios limitados</small>
+              </div>
+
+              <div class="text-center py-2 fw-semibold text-uc-secondary mt-auto">
+                Click para seleccionar →
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TRUST ELEMENTS -->
+    <section class="py-4">
+      <!-- MODIFY RESERVATION LINK -->
+      <div class="text-center">
+        <a href="modify-reservation.html" class="text-decoration-none text-muted small">
+          ¿Ya tienes una reserva? Modifícala aquí →
+        </a>
+      </div>
+    </section>
+
+    <!-- FOOTER INFO -->
+    <section class="py-4 pb-5">
+      <div class="text-center text-muted small">
+        <p class="mb-3">🔒 Pago seguro SSL</p>
+        <p class="mb-3">📞 +52 998 123 4567</p>
+        <p class="mb-3">✉️ reservas@ultracarga.com</p>
+        <p class="mt-4" style="font-size: 0.75rem;">© 2026 Ultracarga. Todos los derechos reservados.</p>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Bootstrap 5 JS Bundle (includes Popper) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- JAVASCRIPT -->
+  <script>
+    console.log('=== INDEX.HTML SCRIPT LOADED ===');
+
+    function selectRoute(card, routeId) {
+      console.log('selectRoute() called with routeId:', routeId);
+
+      try {
+        // Remove selection from all cards
+        document.querySelectorAll('.card-selectable').forEach(c => {
+          c.classList.remove('selected');
+        });
+
+        // Add selection to clicked card
+        card.classList.add('selected');
+
+        // Store selected route
+        localStorage.setItem('selectedRoute', routeId);
+        console.log('Stored in localStorage:', localStorage.getItem('selectedRoute'));
+
+        console.log('Navigating to step1-date.html in 300ms...');
+
+        // Navigate to date selection after short delay
+        setTimeout(() => {
+          console.log('NOW NAVIGATING...');
+          window.location.href = 'step1-date.html';
+        }, 300);
+      } catch (error) {
+        console.error('ERROR in selectRoute:', error);
+      }
+    }
+
+    // Try adding event listeners immediately (not waiting for DOMContentLoaded)
+    function addEventListeners() {
+      console.log('=== ADDING EVENT LISTENERS ===');
+
+      const card1 = document.getElementById('routeCard1');
+      const card2 = document.getElementById('routeCard2');
+
+      console.log('Card 1 element:', card1);
+      console.log('Card 2 element:', card2);
+
+      if (card1) {
+        card1.addEventListener('click', function(e) {
+          console.log('=== CARD 1 CLICKED ===');
+          e.stopPropagation();
+          selectRoute(this, 'calica-cozumel');
+        });
+        console.log('✓ Card 1 event listener added');
+      } else {
+        console.error('✗ Card 1 NOT FOUND!');
+      }
+
+      if (card2) {
+        card2.addEventListener('click', function(e) {
+          console.log('=== CARD 2 CLICKED ===');
+          e.stopPropagation();
+          selectRoute(this, 'puntasam-islamujeres');
+        });
+        console.log('✓ Card 2 event listener added');
+      } else {
+        console.error('✗ Card 2 NOT FOUND!');
+      }
+    }
+
+    // Try multiple times to ensure DOM is ready
+    if (document.readyState === 'loading') {
+      console.log('Document still loading, waiting for DOMContentLoaded...');
+      document.addEventListener('DOMContentLoaded', addEventListeners);
+    } else {
+      console.log('Document already loaded, adding listeners immediately...');
+      addEventListeners();
+    }
+
+    // Also try after a short delay as backup
+    setTimeout(function() {
+      console.log('=== BACKUP: Adding listeners after 100ms delay ===');
+      const card1 = document.getElementById('routeCard1');
+      if (card1 && !card1.onclick) {
+        addEventListeners();
+      }
+    }, 100);
+  </script>
+
+</body>
+</html>

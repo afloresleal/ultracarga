@@ -1,0 +1,648 @@
+/* ============================================
+   ULTRACARGA - Bootstrap 5 Enhanced Styles
+   Custom components + Bootstrap framework
+   ============================================ */
+
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+/* ============================================
+   CUSTOM BRAND COLORS (Bootstrap Compatible)
+   ============================================ */
+:root {
+  /* Ultracarga Brand Colors */
+  --uc-primary: #FBE304;
+  --uc-secondary: #162B6B;
+
+  /* Override Bootstrap primary/secondary */
+  --bs-primary: #FBE304;
+  --bs-primary-rgb: 251, 227, 4;
+  --bs-secondary: #162B6B;
+  --bs-secondary-rgb: 22, 43, 107;
+
+  /* Bootstrap theme customization */
+  --bs-body-font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --bs-body-bg: #F9FAFB;
+  --bs-border-radius: 0.5rem;
+  --bs-border-radius-lg: 0.75rem;
+
+  /* Custom semantic colors */
+  --color-success: #10B981;
+  --color-warning: #F59E0B;
+  --color-error: #EF4444;
+  --color-info: #3B82F6;
+}
+
+/* ============================================
+   BOOTSTRAP OVERRIDES
+   ============================================ */
+
+/* Primary button with brand colors */
+.btn-primary {
+  background-color: var(--uc-primary);
+  border-color: var(--uc-primary);
+  color: var(--uc-secondary);
+  font-weight: 600;
+}
+
+.btn-primary:hover,
+.btn-primary:focus {
+  background-color: #e5ce04;
+  border-color: #e5ce04;
+  color: var(--uc-secondary);
+}
+
+/* Secondary button */
+.btn-secondary {
+  background-color: transparent;
+  border: 2px solid var(--uc-secondary);
+  color: var(--uc-secondary);
+  font-weight: 600;
+}
+
+.btn-secondary:hover,
+.btn-secondary:focus {
+  background-color: rgba(22, 43, 107, 0.05);
+  border-color: var(--uc-secondary);
+  color: var(--uc-secondary);
+}
+
+/* Danger button */
+.btn-danger {
+  background-color: transparent;
+  border: 2px solid var(--color-error);
+  color: var(--color-error);
+  font-weight: 600;
+}
+
+.btn-danger:hover {
+  background-color: #fef2f2;
+  border-color: var(--color-error);
+  color: var(--color-error);
+}
+
+/* Form inputs with brand focus */
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--uc-primary);
+  box-shadow: 0 0 0 0.25rem rgba(251, 227, 4, 0.25);
+}
+
+/* Custom card selectable states */
+.card-selectable {
+  cursor: pointer;
+  transition: all 0.25s ease;
+  border: 2px solid #E5E7EB;
+}
+
+.card-selectable:hover {
+  border-color: var(--uc-primary);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+.card-selectable.selected {
+  border-color: var(--uc-primary);
+  background-color: #fffbeb;
+  border-width: 2px;
+}
+
+/* ============================================
+   CUSTOM HEADER
+   ============================================ */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 1020;
+  background-color: var(--uc-secondary);
+  border-bottom: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.header__logo {
+  display: block;
+  height: 40px;
+  text-decoration: none;
+}
+
+.header__logo img {
+  height: 100%;
+  width: auto;
+  display: block;
+}
+
+.header__logo:hover {
+  opacity: 0.9;
+}
+
+/* Language selector on dark header */
+.header select option {
+  background-color: var(--uc-secondary);
+  color: white;
+}
+
+/* ============================================
+   CUSTOM HERO SECTION
+   ============================================ */
+.hero__image {
+  width: 100%;
+  height: 200px;
+  background: linear-gradient(135deg, var(--uc-secondary) 0%, #2563eb 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 3rem;
+}
+
+.hero__title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--uc-secondary);
+  line-height: 1.2;
+}
+
+.hero__subtitle {
+  font-size: 1rem;
+  color: #6B7280;
+  line-height: 1.6;
+}
+
+/* ============================================
+   PROGRESS BAR (Wizard Steps)
+   ============================================ */
+.progress-bar-wizard {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  background-color: white;
+  border-bottom: 1px solid #E5E7EB;
+  position: sticky;
+  top: 65px;
+  z-index: 1019;
+}
+
+.progress-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  flex: 1;
+  position: relative;
+}
+
+.progress-step__number {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.875rem;
+  font-weight: 700;
+  background-color: #D1D5DB;
+  color: white;
+  transition: all 0.25s ease;
+  z-index: 2;
+}
+
+.progress-step--active .progress-step__number {
+  background-color: var(--uc-primary);
+  color: var(--uc-secondary);
+  box-shadow: 0 0 0 4px rgba(251, 227, 4, 0.2);
+}
+
+.progress-step--completed .progress-step__number {
+  background-color: var(--color-success);
+}
+
+.progress-step__label {
+  font-size: 0.6875rem;
+  font-weight: 500;
+  color: #6B7280;
+  text-align: center;
+}
+
+.progress-step--active .progress-step__label {
+  color: var(--uc-secondary);
+  font-weight: 600;
+}
+
+/* Progress connecting line */
+.progress-step:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 16px;
+  left: calc(50% + 16px);
+  width: calc(100% - 32px);
+  height: 2px;
+  background-color: #D1D5DB;
+  z-index: 1;
+}
+
+.progress-step--completed:not(:last-child)::after {
+  background-color: var(--color-success);
+}
+
+/* ============================================
+   CUSTOM CALENDAR
+   ============================================ */
+.calendar {
+  background-color: white;
+  border: 1px solid #E5E7EB;
+  border-radius: 0.75rem;
+  padding: 1rem;
+}
+
+.calendar__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.calendar__month {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--uc-secondary);
+}
+
+.calendar__nav-btn {
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: transparent;
+  color: var(--uc-secondary);
+  font-size: 1.125rem;
+  cursor: pointer;
+  border-radius: 0.25rem;
+  transition: all 0.15s ease;
+}
+
+.calendar__nav-btn:hover {
+  background-color: #F3F4F6;
+}
+
+.calendar__days-header {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+  margin-bottom: 0.5rem;
+}
+
+.calendar__day-label {
+  text-align: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #6B7280;
+  text-transform: uppercase;
+}
+
+.calendar__days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.calendar__day {
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.875rem;
+  border-radius: 0.25rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  position: relative;
+}
+
+.calendar__day:hover:not(.calendar__day--disabled) {
+  background-color: #F3F4F6;
+}
+
+.calendar__day--selected {
+  background-color: var(--uc-primary);
+  color: var(--uc-secondary);
+  font-weight: 600;
+}
+
+.calendar__day--disabled {
+  color: #9CA3AF;
+  cursor: not-allowed;
+}
+
+.calendar__day--high::after,
+.calendar__day--medium::after,
+.calendar__day--low::after,
+.calendar__day--full::after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+}
+
+.calendar__day--high::after {
+  background-color: var(--color-success);
+}
+
+.calendar__day--medium::after {
+  background-color: var(--color-warning);
+}
+
+.calendar__day--low::after {
+  background-color: var(--color-error);
+}
+
+.calendar__day--full::after {
+  background-color: #9CA3AF;
+}
+
+.calendar__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #E5E7EB;
+}
+
+.calendar__legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  color: #6B7280;
+}
+
+.calendar__legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.calendar__legend-dot--high {
+  background-color: var(--color-success);
+}
+
+.calendar__legend-dot--medium {
+  background-color: var(--color-warning);
+}
+
+.calendar__legend-dot--low {
+  background-color: var(--color-error);
+}
+
+.calendar__legend-dot--full {
+  background-color: #9CA3AF;
+}
+
+/* ============================================
+   SCHEDULE SELECTOR
+   ============================================ */
+.schedule-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  padding: 1rem;
+  background-color: white;
+  border: 2px solid #E5E7EB;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  margin-bottom: 1rem;
+}
+
+.schedule-option:hover {
+  border-color: var(--uc-primary);
+}
+
+.schedule-option--selected {
+  border-color: var(--uc-primary);
+  background-color: #fffbeb;
+}
+
+.schedule-option input[type="radio"] {
+  margin-top: 2px;
+  width: 20px;
+  height: 20px;
+  accent-color: var(--uc-primary);
+  cursor: pointer;
+}
+
+.schedule-option__content {
+  flex: 1;
+}
+
+.schedule-option__time {
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: var(--uc-secondary);
+  margin-bottom: 0.25rem;
+}
+
+.schedule-option__badge {
+  display: inline-block;
+  padding: 2px 8px;
+  background-color: var(--uc-primary);
+  color: var(--uc-secondary);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  border-radius: 0.25rem;
+  margin-left: 0.5rem;
+}
+
+.schedule-option__details {
+  font-size: 0.875rem;
+  color: #6B7280;
+  margin-bottom: 0.5rem;
+}
+
+.schedule-option__availability {
+  font-size: 0.875rem;
+  color: #111827;
+  font-weight: 500;
+  margin-bottom: 0.25rem;
+}
+
+.schedule-option__progress-bar {
+  width: 100%;
+  height: 4px;
+  background-color: #E5E7EB;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.schedule-option__progress-fill {
+  height: 100%;
+  transition: width 0.25s ease;
+}
+
+.schedule-option__progress-fill--high {
+  background-color: var(--color-success);
+}
+
+.schedule-option__progress-fill--medium {
+  background-color: var(--color-warning);
+}
+
+.schedule-option__progress-fill--low {
+  background-color: var(--color-error);
+}
+
+.schedule-option--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.schedule-option--disabled:hover {
+  border-color: #E5E7EB;
+}
+
+/* ============================================
+   QR CODE & RESERVATION
+   ============================================ */
+.qr-container {
+  text-align: center;
+  padding: 2rem 0;
+}
+
+.qr-code {
+  width: 200px;
+  height: 200px;
+  margin: 0 auto 1.5rem;
+  background-color: white;
+  border: 4px solid #E5E7EB;
+  border-radius: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 5rem;
+}
+
+.qr-code__placeholder {
+  color: #9CA3AF;
+}
+
+.reservation-code {
+  font-size: 1.5rem;
+  font-weight: 700;
+  font-family: 'Courier New', monospace;
+  color: var(--uc-secondary);
+  letter-spacing: 2px;
+  padding: 1rem;
+  background-color: #F3F4F6;
+  border-radius: 0.5rem;
+  display: inline-block;
+  margin-bottom: 1.5rem;
+}
+
+/* ============================================
+   COUNTER INPUT
+   ============================================ */
+.counter {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.counter__btn {
+  width: 48px;
+  height: 48px;
+  border: 2px solid var(--uc-secondary);
+  background-color: white;
+  color: var(--uc-secondary);
+  font-size: 1.5rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.counter__btn:hover:not(:disabled) {
+  background-color: #F3F4F6;
+}
+
+.counter__btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.counter__value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--uc-secondary);
+  min-width: 60px;
+  text-align: center;
+}
+
+.counter__icon {
+  font-size: 2rem;
+  color: #9CA3AF;
+}
+
+/* ============================================
+   CUSTOM BANNERS (Extending Bootstrap Alerts)
+   ============================================ */
+.banner--cobranding {
+  background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+  border: 2px solid var(--uc-primary);
+}
+
+/* ============================================
+   UTILITIES
+   ============================================ */
+.text-uc-primary {
+  color: var(--uc-primary) !important;
+}
+
+.text-uc-secondary {
+  color: var(--uc-secondary) !important;
+}
+
+.bg-uc-primary {
+  background-color: var(--uc-primary) !important;
+}
+
+.bg-uc-secondary {
+  background-color: var(--uc-secondary) !important;
+}
+
+/* Animate fade in */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.25s ease-out;
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Focus styles for keyboard navigation */
+*:focus-visible {
+  outline: 2px solid var(--uc-primary);
+  outline-offset: 2px;
+}

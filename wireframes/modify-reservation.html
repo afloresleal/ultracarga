@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modificar Reserva - Ultracarga</title>
+
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="container-fluid px-4">
+      <div class="d-flex justify-content-between align-items-center py-3">
+        <a href="index.html" class="header__logo">
+          <img src="ultra-carga-horizontal_logo-blanco.png" alt="Ultracarga">
+        </a>
+        <select class="form-select form-select-sm" style="width: auto; background-color: rgba(255,255,255,0.1); color: white; border-color: rgba(255,255,255,0.2);">
+          <option value="es">ES</option>
+          <option value="en">EN</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <div class="container" style="max-width: 800px;">
+    
+    <!-- SEARCH FORM -->
+    <section class="py-4" id="searchSection">
+      <div class="text-center mb-5">
+        <div class="fs-1 mb-3">🔍</div>
+        <h1 class="h2 fw-bold text-uc-secondary mb-3">Modificar tu reserva</h1>
+        <p class="text-muted">
+          Ingresa la placa de tu vehículo para buscar tu reserva activa
+        </p>
+      </div>
+
+      <!-- MODIFICATION POLICIES BANNER -->
+      <div class="alert alert-info mb-4" style="border-left: 4px solid #2196F3;">
+        <div class="d-flex align-items-start gap-2">
+          <div class="fs-5">ℹ️</div>
+          <div class="flex-grow-1">
+            <h6 class="fw-bold mb-2">Políticas de modificación</h6>
+            <ul class="mb-0 small">
+              <li>Solo puedes modificar tu reserva <strong>24 horas antes</strong> de la hora de embarque</li>
+              <li>Costo de modificación: <strong>$50 MXN</strong></li>
+              <li>Puedes modificar: <strong>fecha, horario o agregar pasajeros</strong></li>
+              <li>No es posible modificar el vehículo o la ruta</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <form id="searchForm" onsubmit="searchReservation(event)">
+        <div class="mb-4">
+          <label for="searchPlate" class="form-label fw-semibold">
+            Placas del vehículo <span class="text-danger">*</span>
+          </label>
+          <input
+            type="text"
+            id="searchPlate"
+            class="form-control form-control-lg text-center"
+            placeholder="ABC-123-4"
+            maxlength="9"
+            required
+            oninput="formatLicensePlate(this)"
+          >
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-lg w-100 mb-4">
+          Buscar Reserva
+        </button>
+      </form>
+
+      <hr class="my-4">
+
+      <!-- ALTERNATIVE SEARCH OPTIONS -->
+      <div class="text-center text-muted small">
+        <p class="mb-3">¿No recuerdas tu placa?</p>
+        <p class="mb-2">También puedes buscar por:</p>
+        <p class="mb-1">• <a href="#" class="text-decoration-none">Código de reserva</a></p>
+        <p class="mb-1">• <a href="#" class="text-decoration-none">Email de confirmación</a></p>
+      </div>
+
+      <a href="index.html" class="d-inline-flex align-items-center gap-1 text-decoration-none text-muted small mt-4">
+        ← Volver a nueva reserva
+      </a>
+    </section>
+    
+    <!-- RESULTS SECTION (Hidden by default) -->
+    <section class="section" id="resultsSection" style="display: none;">
+      <!-- This will be populated by JavaScript -->
+    </section>
+    
+  </div>
+
+  <!-- Bootstrap 5 JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- JAVASCRIPT -->
+  <script>
+    function formatLicensePlate(input) {
+      let value = input.value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+      
+      if (value.length <= 3) {
+        input.value = value;
+      } else if (value.length <= 6) {
+        input.value = value.slice(0, 3) + '-' + value.slice(3);
+      } else {
+        input.value = value.slice(0, 3) + '-' + value.slice(3, 6) + '-' + value.slice(6, 7);
+      }
+    }
+    
+    function searchReservation(event) {
+      event.preventDefault();
+      
+      const plate = document.getElementById('searchPlate').value;
+      
+      // Simulate API call
+      setTimeout(() => {
+        // Simulate different results based on plate
+        if (plate === 'ABC-123-4') {
+          showSingleResult();
+        } else if (plate === 'XYZ-789-0') {
+          showMultipleResults();
+        } else {
+          showNoResults(plate);
+        }
+      }, 500);
+    }
+    
+    function showSingleResult() {
+      document.getElementById('searchSection').style.display = 'none';
+      document.getElementById('resultsSection').style.display = 'block';
+      document.getElementById('resultsSection').innerHTML = `
+        <div class="alert alert-success d-flex align-items-start gap-2 mb-4 animate-fade-in">
+          <div class="fs-5">✓</div>
+          <div>
+            <h6 class="alert-heading mb-0">Reserva encontrada</h6>
+          </div>
+        </div>
+
+        <div class="text-center mb-4">
+          <p class="small text-muted mb-2">Código de reserva:</p>
+          <div class="reservation-code">UC-2024-001234</div>
+        </div>
+
+        <div class="card mb-4">
+          <div class="card-body">
+            <div class="d-flex flex-column gap-3">
+              <div class="d-flex align-items-center gap-3">
+                <span class="fs-5">📅</span>
+                <div class="small">
+                  <strong>Vie, 29 Dic 2025</strong>
+                </div>
+              </div>
+
+              <div class="d-flex align-items-center gap-3">
+                <span class="fs-5">🕐</span>
+                <div class="small">
+                  <strong>09:00 AM</strong>
+                </div>
+              </div>
+
+              <div class="d-flex align-items-center gap-3">
+                <span class="fs-5">🚢</span>
+                <div class="small">
+                  <strong>Calica → Cozumel</strong>
+                </div>
+              </div>
+
+              <div class="d-flex align-items-center gap-3">
+                <span class="fs-5">🚗</span>
+                <div class="small">
+                  <strong>ABC-123-4</strong>
+                </div>
+              </div>
+
+              <div class="d-flex align-items-center gap-3">
+                <span class="fs-5">👤</span>
+                <div class="small">
+                  <strong>Juan Pérez + 2 pas.</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn btn-primary btn-lg w-100 mb-3" onclick="modifyReservation()">
+          Modificar esta reserva
+        </button>
+
+        <a href="#" class="d-inline-flex align-items-center gap-1 text-decoration-none text-muted small mt-4" onclick="backToSearch(); return false;">
+          ← Buscar otra reserva
+        </a>
+      `;
+      window.scrollTo(0, 0);
+    }
+    
+    function showMultipleResults() {
+      document.getElementById('searchSection').style.display = 'none';
+      document.getElementById('resultsSection').style.display = 'block';
+      document.getElementById('resultsSection').innerHTML = `
+        <div class="alert alert-info d-flex align-items-start gap-2 mb-4 animate-fade-in">
+          <div class="fs-5">ℹ️</div>
+          <div>
+            <p class="mb-0 small">
+              Encontramos <strong>2 reservas activas</strong> con estas placas.<br>
+              Selecciona cuál deseas modificar:
+            </p>
+          </div>
+        </div>
+
+        <div class="card card-selectable mb-3" onclick="selectReservation(1)" style="cursor: pointer;">
+          <div class="card-body">
+            <div class="d-flex align-items-center gap-3">
+              <input type="radio" name="reservation" id="res1" class="form-check-input">
+              <div class="flex-grow-1">
+                <h6 class="card-title text-uc-secondary fw-bold mb-1">UC-2024-001234</h6>
+                <p class="card-text text-muted small mb-0">Vie, 29 Dic | 09:00 AM</p>
+                <p class="card-text text-muted small mb-0">Calica → Cozumel</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card card-selectable mb-4" onclick="selectReservation(2)" style="cursor: pointer;">
+          <div class="card-body">
+            <div class="d-flex align-items-center gap-3">
+              <input type="radio" name="reservation" id="res2" class="form-check-input">
+              <div class="flex-grow-1">
+                <h6 class="card-title text-uc-secondary fw-bold mb-1">UC-2024-001567</h6>
+                <p class="card-text text-muted small mb-0">Sáb, 30 Dic | 14:00 PM</p>
+                <p class="card-text text-muted small mb-0">Cozumel → Calica (Regreso)</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button class="btn btn-primary btn-lg w-100 mb-4" id="continueBtn" disabled onclick="continueWithSelected()">
+          Continuar
+        </button>
+
+        <a href="#" class="d-inline-flex align-items-center gap-1 text-decoration-none text-muted small" onclick="backToSearch(); return false;">
+          ← Buscar otra placa
+        </a>
+      `;
+      window.scrollTo(0, 0);
+    }
+    
+    function showNoResults(plate) {
+      document.getElementById('searchSection').style.display = 'none';
+      document.getElementById('resultsSection').style.display = 'block';
+      document.getElementById('resultsSection').innerHTML = `
+        <div class="alert alert-danger d-flex align-items-start gap-2 mb-4 animate-fade-in">
+          <div class="fs-5">❌</div>
+          <div>
+            <h6 class="alert-heading mb-1">No encontramos reservas activas</h6>
+            <p class="mb-0 small">
+              No hay reservas asociadas a las placas <strong>${plate}</strong>
+            </p>
+          </div>
+        </div>
+
+        <div class="bg-light rounded-3 p-4 mb-4">
+          <h5 class="fw-bold text-uc-secondary mb-3">Posibles razones:</h5>
+          <div class="text-muted small lh-lg">
+            <p class="mb-2">• Ya usaste esta reserva</p>
+            <p class="mb-2">• Fue cancelada previamente</p>
+            <p class="mb-0">• Las placas están incorrectas</p>
+          </div>
+        </div>
+
+        <button class="btn btn-primary btn-lg w-100 mb-3" onclick="backToSearch()">
+          Intentar de nuevo
+        </button>
+
+        <a href="index.html" class="btn btn-secondary btn-lg w-100">
+          Hacer nueva reserva
+        </a>
+      `;
+      window.scrollTo(0, 0);
+    }
+    
+    function backToSearch() {
+      document.getElementById('searchSection').style.display = 'block';
+      document.getElementById('resultsSection').style.display = 'none';
+      document.getElementById('searchPlate').value = '';
+      document.getElementById('searchPlate').focus();
+    }
+    
+    function selectReservation(resId) {
+      // Remove previous selection
+      document.querySelectorAll('.card-selectable').forEach(c => {
+        c.classList.remove('selected');
+      });
+
+      // Select clicked card
+      event.currentTarget.classList.add('selected');
+      document.getElementById('res' + resId).checked = true;
+
+      // Enable continue button
+      document.getElementById('continueBtn').disabled = false;
+    }
+    
+    function continueWithSelected() {
+      const selected = document.querySelector('input[name="reservation"]:checked');
+      if (selected) {
+        modifyReservation();
+      }
+    }
+    
+    function modifyReservation() {
+      // In real app: pre-load wizard with existing reservation data
+      alert('Redirigiendo al wizard con datos pre-cargados de la reserva...');
+      // Would navigate to step1-date.html with pre-filled data
+      window.location.href = 'step1-date.html?modify=true';
+    }
+    
+    function cancelReservation() {
+      if (confirm('¿Estás seguro de que deseas cancelar esta reserva?\\n\\nRecibirás un reembolso del 80% si cancelas con 48h de anticipación.')) {
+        alert('Reserva cancelada. Recibirás un email de confirmación.');
+        window.location.href = 'index.html';
+      }
+    }
+  </script>
+  
+</body>
+</html>

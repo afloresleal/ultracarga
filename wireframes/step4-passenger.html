@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Datos del Conductor - Ultracarga</title>
+
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="container-fluid px-4">
+      <div class="d-flex justify-content-between align-items-center py-3">
+        <a href="index.html" class="header__logo">
+          <img src="ultra-carga-horizontal_logo-blanco.png" alt="Ultracarga">
+        </a>
+        <select class="form-select form-select-sm" style="width: auto; background-color: rgba(255,255,255,0.1); color: white; border-color: rgba(255,255,255,0.2);">
+          <option value="es">ES</option>
+          <option value="en">EN</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <!-- PROGRESS BAR -->
+  <div class="progress-bar-wizard">
+    <div class="progress-step progress-step--completed">
+      <div class="progress-step__number">✓</div>
+      <div class="progress-step__label">Ruta</div>
+    </div>
+    <div class="progress-step progress-step--completed">
+      <div class="progress-step__number">✓</div>
+      <div class="progress-step__label">Vehículo</div>
+    </div>
+    <div class="progress-step progress-step--completed">
+      <div class="progress-step__number">✓</div>
+      <div class="progress-step__label">Horario</div>
+    </div>
+    <div class="progress-step progress-step--active">
+      <div class="progress-step__number">4</div>
+      <div class="progress-step__label">Datos</div>
+    </div>
+    <div class="progress-step">
+      <div class="progress-step__number">5</div>
+      <div class="progress-step__label">Pago</div>
+    </div>
+  </div>
+
+  <!-- CONTENT -->
+  <div class="container py-4" style="max-width: 800px;">
+    <h2 class="h4 fw-bold text-uc-secondary mb-4">Información del conductor y pasajeros</h2>
+
+    <!-- RESIDENT BANNER -->
+    <div class="alert alert-info d-none" id="residentBanner" style="background: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%); border: 2px solid #2196F3; color: #162B6B;">
+      <div class="d-flex align-items-center gap-3">
+        <div class="fs-4">🏖️</div>
+        <div>
+          <h6 class="fw-bold mb-1" style="color: #162B6B;">Precio de Residente de Quintana Roo</h6>
+          <p class="mb-0 small">Estás viendo precios preferenciales para residentes</p>
+        </div>
+      </div>
+    </div>
+
+    <form id="passengerForm">
+      <!-- DRIVER INFO -->
+      <div class="mb-1">
+        <small class="text-uppercase text-muted fw-semibold">Conductor</small>
+      </div>
+
+      <div class="mb-3">
+        <label for="driverName" class="form-label">Nombre completo <span class="text-danger">*</span></label>
+        <input
+          type="text"
+          id="driverName"
+          class="form-control"
+          placeholder="Juan Pérez García"
+          required
+        >
+      </div>
+
+      <div class="mb-3">
+        <label for="email" class="form-label">Email <span class="text-danger">*</span></label>
+        <input
+          type="email"
+          id="email"
+          class="form-control"
+          placeholder="juan.perez@email.com"
+          required
+        >
+        <div class="form-text">Te enviaremos la confirmación a este correo</div>
+      </div>
+
+      <div class="mb-3">
+        <label for="phone" class="form-label">Teléfono <span class="text-danger">*</span></label>
+        <input
+          type="tel"
+          id="phone"
+          class="form-control"
+          placeholder="+52 998 123 4567"
+          required
+        >
+      </div>
+
+      <hr class="my-4">
+
+      <!-- PASSENGERS -->
+      <div class="mb-1">
+        <small class="text-uppercase text-muted fw-semibold">Pasajeros</small>
+      </div>
+      <h5 class="h6 fw-bold text-uc-secondary mb-3">¿Cuántos pasajeros te acompañan?</h5>
+      <p class="text-muted small mb-4">
+        (Además del conductor)
+      </p>
+
+      <!-- PASSENGERS GRID -->
+      <div class="row g-3">
+        <!-- ADULTS -->
+        <div class="col-12 col-md-6">
+          <label class="form-label fw-semibold">👤 Adultos</label>
+          <div class="counter">
+            <button type="button" class="counter__btn" id="decrementAdultsBtn" onclick="changeAdults(-1)">−</button>
+            <div class="counter__value" id="adultCount">1</div>
+            <button type="button" class="counter__btn" id="incrementAdultsBtn" onclick="changeAdults(1)">+</button>
+            <div class="counter__icon">👤</div>
+          </div>
+          <p class="text-muted small text-center mt-2 mb-0">
+            Costo adicional: <strong>$100 MXN por adulto</strong>
+          </p>
+        </div>
+
+        <!-- CHILDREN -->
+        <div class="col-12 col-md-6">
+          <label class="form-label fw-semibold">🧒 Niños (0-12 años)</label>
+          <div class="counter">
+            <button type="button" class="counter__btn" id="decrementChildrenBtn" onclick="changeChildren(-1)">−</button>
+            <div class="counter__value" id="childCount">0</div>
+            <button type="button" class="counter__btn" id="incrementChildrenBtn" onclick="changeChildren(1)">+</button>
+            <div class="counter__icon">🧒</div>
+          </div>
+          <p class="text-muted small text-center mt-2 mb-0">
+            Costo adicional: <strong>$50 MXN por niño</strong>
+          </p>
+        </div>
+      </div>
+
+      <hr class="my-4">
+
+      <!-- COST SUMMARY -->
+      <h5 class="h6 fw-bold text-uc-secondary mb-3">Resumen de costos</h5>
+
+      <div class="card mb-3" style="background-color: #F3F4F6;">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <div class="text-muted small">Vehículo (Automóvil)</div>
+            <div class="fw-semibold">$<span id="vehiclePrice">450</span></div>
+          </div>
+          <div class="d-flex justify-content-between align-items-center mb-2" id="adultsRow">
+            <div class="text-muted small">👤 Adultos (<span id="adultCountSummary">1</span>)</div>
+            <div class="fw-semibold">$<span id="adultsPrice">100</span></div>
+          </div>
+          <div class="d-flex justify-content-between align-items-center mb-2" id="childrenRow">
+            <div class="text-muted small">🧒 Niños (<span id="childCountSummary">0</span>)</div>
+            <div class="fw-semibold">$<span id="childrenPrice">0</span></div>
+          </div>
+          <hr>
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <div class="text-muted small">Subtotal</div>
+            <div class="fw-semibold">$<span id="subtotal">550</span></div>
+          </div>
+
+          <!-- DISCOUNT CODE SECTION -->
+          <div class="mb-2">
+            <label for="discountCode" class="form-label small text-muted mb-1">Código de descuento</label>
+            <div class="input-group input-group-sm">
+              <input
+                type="text"
+                class="form-control"
+                id="discountCode"
+                placeholder="Ingresa tu código"
+                style="text-transform: uppercase;"
+                oninput="this.value = this.value.toUpperCase()"
+              >
+              <button
+                class="btn btn-outline-secondary"
+                type="button"
+                onclick="applyDiscountCode()"
+              >
+                Aplicar
+              </button>
+            </div>
+            <div id="discountMessage" class="small mt-1"></div>
+          </div>
+
+          <div class="d-flex justify-content-between align-items-center mb-2 d-none" id="discountRow">
+            <div class="text-success small">Descuento (<span id="discountLabel"></span>)</div>
+            <div class="text-success fw-semibold">-$<span id="discount">0</span></div>
+          </div>
+          <hr>
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="fw-semibold">Total a pagar</div>
+            <div class="fs-5 fw-bold text-uc-secondary">$<span id="totalPrice">468</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DANGEROUS CARGO WARNING -->
+      <div class="alert alert-warning d-none" id="dangerousCargoRestriction">
+        <div class="d-flex align-items-start gap-2">
+          <div class="fs-5">⚠️</div>
+          <div>
+            <p class="mb-0 small">
+              Tu vehículo transporta carga peligrosa. No puedes agregar pasajeros adicionales.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- NAVIGATION BUTTONS -->
+      <button type="button" class="btn btn-primary btn-lg w-100 mb-3" onclick="goToPayment()">
+        Ir a Pago
+      </button>
+
+      <a href="step3-schedule.html" class="d-inline-flex align-items-center gap-1 text-decoration-none text-muted small">
+        ← Anterior
+      </a>
+    </form>
+  </div>
+
+  <!-- Bootstrap 5 JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- JAVASCRIPT -->
+  <script>
+    let adults = 1;
+    let children = 0;
+    let vehiclePrice = parseInt(localStorage.getItem('vehiclePrice') || '450');
+    let adultCost = 100;
+    let childCost = 50;
+    let discountRate = 0;
+    let discountAmount = 0;
+    let appliedDiscountCode = '';
+    let hasDangerousCargo = localStorage.getItem('dangerousCargo') === 'true';
+    let isResident = localStorage.getItem('isResident') === 'true';
+
+    // Valid discount codes
+    const discountCodes = {
+      'DESCUENTO10': { rate: 0.10, label: '10%' },
+      'PROMO15': { rate: 0.15, label: '15%' },
+      'BIENVENIDO': { rate: 0.05, label: '5%' },
+      'VERANO2026': { rate: 0.20, label: '20%' }
+    };
+
+    // Show resident banner if applicable
+    if (isResident) {
+      document.getElementById('residentBanner').classList.remove('d-none');
+    }
+
+    // Check dangerous cargo restriction
+    if (hasDangerousCargo) {
+      adults = 0;
+      children = 0;
+      document.getElementById('adultCount').textContent = '0';
+      document.getElementById('childCount').textContent = '0';
+      document.getElementById('incrementAdultsBtn').disabled = true;
+      document.getElementById('decrementAdultsBtn').disabled = true;
+      document.getElementById('incrementChildrenBtn').disabled = true;
+      document.getElementById('decrementChildrenBtn').disabled = true;
+      document.getElementById('dangerousCargoRestriction').classList.remove('d-none');
+    }
+
+    function changeAdults(change) {
+      if (hasDangerousCargo) return;
+
+      adults += change;
+
+      // Limits
+      if (adults < 0) adults = 0;
+      if (adults > 8) adults = 8;
+
+      // Update UI
+      document.getElementById('adultCount').textContent = adults;
+
+      // Update buttons
+      document.getElementById('decrementAdultsBtn').disabled = adults <= 0;
+      document.getElementById('incrementAdultsBtn').disabled = adults >= 8;
+
+      // Recalculate price
+      updatePriceSummary();
+    }
+
+    function changeChildren(change) {
+      if (hasDangerousCargo) return;
+
+      children += change;
+
+      // Limits
+      if (children < 0) children = 0;
+      if (children > 8) children = 8;
+
+      // Update UI
+      document.getElementById('childCount').textContent = children;
+
+      // Update buttons
+      document.getElementById('decrementChildrenBtn').disabled = children <= 0;
+      document.getElementById('incrementChildrenBtn').disabled = children >= 8;
+
+      // Recalculate price
+      updatePriceSummary();
+    }
+
+    function updatePriceSummary() {
+      const adultsTotal = adults * adultCost;
+      const childrenTotal = children * childCost;
+      const subtotal = vehiclePrice + adultsTotal + childrenTotal;
+      discountAmount = Math.round(subtotal * discountRate);
+      const total = subtotal - discountAmount;
+
+      // Update UI
+      document.getElementById('vehiclePrice').textContent = vehiclePrice;
+      document.getElementById('adultCountSummary').textContent = adults;
+      document.getElementById('adultsPrice').textContent = adultsTotal;
+      document.getElementById('childCountSummary').textContent = children;
+      document.getElementById('childrenPrice').textContent = childrenTotal;
+      document.getElementById('subtotal').textContent = subtotal;
+      document.getElementById('discount').textContent = discountAmount;
+      document.getElementById('totalPrice').textContent = total;
+
+      // Show/hide rows based on counts
+      document.getElementById('adultsRow').style.display = adults > 0 ? 'flex' : 'none';
+      document.getElementById('childrenRow').style.display = children > 0 ? 'flex' : 'none';
+
+      // Show/hide discount row
+      if (discountAmount > 0) {
+        document.getElementById('discountRow').classList.remove('d-none');
+      } else {
+        document.getElementById('discountRow').classList.add('d-none');
+      }
+
+      // Store total for next step
+      localStorage.setItem('totalPrice', total);
+      localStorage.setItem('discountCode', appliedDiscountCode);
+    }
+
+    function applyDiscountCode() {
+      const codeInput = document.getElementById('discountCode');
+      const code = codeInput.value.trim().toUpperCase();
+      const messageDiv = document.getElementById('discountMessage');
+
+      if (!code) {
+        messageDiv.innerHTML = '<span class="text-danger">Por favor ingresa un código</span>';
+        return;
+      }
+
+      // Check if code is valid
+      if (discountCodes[code]) {
+        const discountInfo = discountCodes[code];
+        discountRate = discountInfo.rate;
+        appliedDiscountCode = code;
+
+        // Update discount label
+        document.getElementById('discountLabel').textContent = discountInfo.label;
+
+        // Show success message
+        messageDiv.innerHTML = `<span class="text-success">✓ Código aplicado: ${discountInfo.label} de descuento</span>`;
+
+        // Disable input and button
+        codeInput.disabled = true;
+        codeInput.parentElement.querySelector('button').disabled = true;
+
+        // Recalculate prices
+        updatePriceSummary();
+      } else {
+        // Invalid code
+        messageDiv.innerHTML = '<span class="text-danger">✗ Código inválido</span>';
+        discountRate = 0;
+        appliedDiscountCode = '';
+        updatePriceSummary();
+      }
+    }
+
+    function goToPayment() {
+      // Validate required fields
+      const driverName = document.getElementById('driverName').value;
+      const email = document.getElementById('email').value;
+      const phone = document.getElementById('phone').value;
+
+      if (!driverName || !email || !phone) {
+        alert('Por favor completa todos los campos requeridos');
+        return;
+      }
+
+      // Email validation
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email)) {
+        alert('Por favor ingresa un email válido');
+        return;
+      }
+
+      // Store data
+      localStorage.setItem('driverName', driverName);
+      localStorage.setItem('email', email);
+      localStorage.setItem('phone', phone);
+      localStorage.setItem('adults', adults);
+      localStorage.setItem('children', children);
+
+      // Navigate to payment
+      window.location.href = 'step5-payment.html';
+    }
+
+    // Initialize price summary
+    updatePriceSummary();
+  </script>
+
+</body>
+</html>
