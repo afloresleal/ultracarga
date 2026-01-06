@@ -185,6 +185,17 @@
       </div>
     </div>
 
+    <!-- DISCOUNT ID WARNING (Hidden by default) -->
+    <div class="alert alert-warning d-none" id="discountIdWarning" style="background-color: #fff3cd; border-color: #ffc107;">
+      <div class="d-flex align-items-start gap-2">
+        <div class="fs-5">⚠️</div>
+        <div>
+          <h6 class="fw-bold mb-2">Importante: Presentación de identificación</h6>
+          <p class="mb-0 small" id="discountIdText"></p>
+        </div>
+      </div>
+    </div>
+
     <hr class="my-4">
 
     <!-- BOARDING INSTRUCTIONS -->
@@ -308,6 +319,18 @@
         document.getElementById('vehicleDiscountLabel').textContent = discountLabel;
         document.getElementById('vehicleDiscountAmount').textContent = vehicleDiscount;
         discountRow.classList.remove('d-none');
+
+        // Show ID warning based on discount type
+        const discountIdWarning = document.getElementById('discountIdWarning');
+        const discountIdText = document.getElementById('discountIdText');
+
+        if (isResident) {
+          discountIdText.textContent = 'Deberás presentar tu identificación oficial que acredite tu residencia en Quintana Roo al abordar. De lo contrario, tendrás que pagar la diferencia del precio regular.';
+        } else if (isInapam) {
+          discountIdText.textContent = 'Deberás presentar tu credencial INAPAM vigente al abordar. De lo contrario, tendrás que pagar la diferencia del precio regular.';
+        }
+
+        discountIdWarning.classList.remove('d-none');
       }
 
       // Calculate totals (using placeholder values for now)
