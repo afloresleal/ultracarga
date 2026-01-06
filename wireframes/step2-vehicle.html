@@ -56,24 +56,6 @@
   <div class="container py-4" style="max-width: 800px;">
     <h2 class="h4 fw-bold text-uc-secondary mb-4">Información del vehículo</h2>
 
-    <!-- RESIDENT TOGGLE -->
-    <div class="card mb-4" style="background: linear-gradient(135deg, #E3F2FD 0%, #BBDEFB 100%); border: 2px solid #2196F3;">
-      <div class="card-body">
-        <div class="d-flex align-items-center justify-content-between">
-          <div class="d-flex align-items-center gap-3">
-            <div class="fs-4">🏖️</div>
-            <div>
-              <h6 class="fw-bold text-uc-secondary mb-1">¿Eres residente de Quintana Roo?</h6>
-              <p class="small text-muted mb-0">Obtén precios preferenciales</p>
-            </div>
-          </div>
-          <div class="form-check form-switch">
-            <input class="form-check-input" type="checkbox" id="residentToggle" onchange="toggleResidentPrices()" style="width: 3em; height: 1.5em; cursor: pointer;">
-          </div>
-        </div>
-      </div>
-    </div>
-
     <form id="vehicleForm">
       <!-- PASSENGERS SECTION -->
       <div class="mb-4">
@@ -89,7 +71,7 @@
                   <div class="flex-grow-1">
                     <h6 class="card-title mb-0 text-uc-secondary">👤 Pasajero</h6>
                     <p class="card-text text-muted small mb-1">Sin vehículo (la cantidad de niños/adultos se especifica en el paso 4)</p>
-                    <p class="fw-bold text-uc-secondary mb-0 vehicle-price" data-regular="265" data-resident="240">$265 MXN</p>
+                    <p class="fw-bold text-uc-secondary mb-0 vehicle-price" data-regular="265" data-resident="240" data-inapam="239">$265 MXN</p>
                   </div>
                 </div>
               </div>
@@ -112,7 +94,7 @@
                   <div class="flex-grow-1">
                     <h6 class="card-title mb-0 text-uc-secondary">🏍️ Motocicleta</h6>
                     <p class="card-text text-muted small mb-1">Hasta 500 kg</p>
-                    <p class="fw-bold text-uc-secondary mb-0 vehicle-price" data-regular="280" data-resident="250">$280 MXN</p>
+                    <p class="fw-bold text-uc-secondary mb-0 vehicle-price" data-regular="280" data-resident="250" data-inapam="252">$280 MXN</p>
                   </div>
                 </div>
               </div>
@@ -128,7 +110,7 @@
                   <div class="flex-grow-1">
                     <h6 class="card-title mb-0 text-uc-secondary">🚗 Automóvil</h6>
                     <p class="card-text text-muted small mb-1">Sedán, hatchback, compacto</p>
-                    <p class="fw-bold text-uc-secondary mb-0 vehicle-price" data-regular="450" data-resident="400">$450 MXN</p>
+                    <p class="fw-bold text-uc-secondary mb-0 vehicle-price" data-regular="450" data-resident="400" data-inapam="405">$450 MXN</p>
                   </div>
                 </div>
               </div>
@@ -144,7 +126,7 @@
                   <div class="flex-grow-1">
                     <h6 class="card-title mb-0 text-uc-secondary">🚙 Camioneta/SUV</h6>
                     <p class="card-text text-muted small mb-1">Pick-up, van, SUV</p>
-                    <p class="fw-bold text-uc-secondary mb-0 vehicle-price" data-regular="620" data-resident="550">$620 MXN</p>
+                    <p class="fw-bold text-uc-secondary mb-0 vehicle-price" data-regular="620" data-resident="550" data-inapam="558">$620 MXN</p>
                   </div>
                 </div>
               </div>
@@ -193,6 +175,14 @@
       </div>
             <hr class="my-4">
 
+      <!-- DISCOUNTS INFO BANNER -->
+      <div class="alert alert-info d-flex align-items-start gap-2 mb-4" style="background-color: #E8F4F8; border-color: #4FC3F7;">
+        <div class="fs-5">💰</div>
+        <div>
+          <h6 class="fw-bold mb-1">¿Tienes descuentos disponibles?</h6>
+          <p class="mb-0 small">Más adelante podrás aplicar descuentos de residente de Quintana Roo, INAPAM o cupones promocionales.</p>
+        </div>
+      </div>
 
       <!-- VEHICLE DETAILS -->
       <h5 class="h6 fw-bold text-uc-secondary mb-3">Datos del vehículo</h5>
@@ -244,8 +234,7 @@
 
   <!-- JAVASCRIPT -->
   <script>
-    let vehiclePrice = 450; // Default car price
-    let isResident = false;
+    let vehiclePrice = 450; // Default car price (regular price)
 
     // Vehicle restrictions
     const vehicleRestrictions = {
@@ -270,35 +259,6 @@
       }
     };
 
-    function toggleResidentPrices() {
-      const toggle = document.getElementById('residentToggle');
-      isResident = toggle.checked;
-
-      // Update all price displays
-      document.querySelectorAll('.vehicle-price').forEach(priceElement => {
-        const regularPrice = parseInt(priceElement.getAttribute('data-regular'));
-        const residentPrice = parseInt(priceElement.getAttribute('data-resident'));
-        const currentPrice = isResident ? residentPrice : regularPrice;
-
-        priceElement.textContent = `$${currentPrice} MXN`;
-      });
-
-      // Update current selection price
-      const selectedCard = document.querySelector('.card-selectable.selected');
-      if (selectedCard) {
-        const priceElement = selectedCard.querySelector('.vehicle-price');
-        const price = isResident
-          ? parseInt(priceElement.getAttribute('data-resident'))
-          : parseInt(priceElement.getAttribute('data-regular'));
-
-        vehiclePrice = price;
-        localStorage.setItem('vehiclePrice', price);
-      }
-
-      // Store resident status
-      localStorage.setItem('isResident', isResident);
-    }
-
     function selectVehicleType(card, vehicleType) {
       // Remove previous selection
       document.querySelectorAll('.card-selectable').forEach(c => {
@@ -311,18 +271,16 @@
       // Check radio button
       document.getElementById(vehicleType).checked = true;
 
-      // Get price based on resident status
+      // Get regular price
       const priceElement = card.querySelector('.vehicle-price');
-      const price = isResident
-        ? parseInt(priceElement.getAttribute('data-resident'))
-        : parseInt(priceElement.getAttribute('data-regular'));
+      const regularPrice = parseInt(priceElement.getAttribute('data-regular'));
 
       // Update price
-      vehiclePrice = price;
+      vehiclePrice = regularPrice;
 
-      // Store selection
+      // Store selection (always store regular price, discounts will be applied in step 4)
       localStorage.setItem('vehicleType', vehicleType);
-      localStorage.setItem('vehiclePrice', price);
+      localStorage.setItem('vehiclePrice', regularPrice);
 
       // Show/hide restrictions banner
       const restrictionsBanner = document.getElementById('vehicleRestrictions');

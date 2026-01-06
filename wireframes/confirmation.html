@@ -146,6 +146,47 @@
 
     <hr class="my-4">
 
+    <!-- PAYMENT BREAKDOWN -->
+    <h5 class="h6 fw-bold text-uc-secondary mb-3">Desglose de pago</h5>
+
+    <div class="card mb-4" style="background-color: #F3F4F6;">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <div class="text-muted small">Vehículo</div>
+          <div class="fw-semibold" id="vehiclePriceDisplay">$450</div>
+        </div>
+        <div class="d-flex justify-content-between align-items-center mb-2" id="passengersRow">
+          <div class="text-muted small">Pasajeros (<span id="passengerCount">2</span>)</div>
+          <div class="fw-semibold" id="passengersPriceDisplay">$200</div>
+        </div>
+
+        <!-- Discount Row (Hidden by default) -->
+        <div class="d-flex justify-content-between align-items-center mb-2 d-none" id="vehicleDiscountRow">
+          <div class="text-success small" id="vehicleDiscountLabel">Descuento</div>
+          <div class="text-success fw-semibold">-$<span id="vehicleDiscountAmount">0</span></div>
+        </div>
+
+        <div class="d-flex justify-content-between align-items-center mb-2">
+          <div class="text-muted small">Subtotal</div>
+          <div class="fw-semibold" id="subtotalDisplay">$650</div>
+        </div>
+
+        <!-- Coupon Discount Row (Hidden by default) -->
+        <div class="d-flex justify-content-between align-items-center mb-2 d-none" id="couponDiscountRow">
+          <div class="text-success small">Descuento cupón (<span id="couponDiscountLabel">15%</span>)</div>
+          <div class="text-success fw-semibold">-$<span id="couponDiscountAmount">97</span></div>
+        </div>
+
+        <hr>
+        <div class="d-flex justify-content-between align-items-center">
+          <div class="fw-semibold">Total pagado</div>
+          <div class="fs-5 fw-bold text-success">$<span id="totalDisplay">553</span></div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="my-4">
+
     <!-- BOARDING INSTRUCTIONS -->
     <h5 class="h6 fw-bold text-uc-secondary mb-3">Instrucciones de abordaje</h5>
 
@@ -233,6 +274,54 @@
       localStorage.clear();
       window.location.href = 'index.html';
     }
+
+    // Load and display payment breakdown with discount
+    (function initPaymentBreakdown() {
+      // Load data from localStorage
+      const isResident = localStorage.getItem('isResident') === 'true';
+      const isInapam = localStorage.getItem('isInapam') === 'true';
+      const vehiclePriceRegular = parseInt(localStorage.getItem('vehiclePrice') || '450');
+
+      // Calculate vehicle price with discount if applicable
+      let vehiclePrice = vehiclePriceRegular;
+      let vehicleDiscount = 0;
+      let discountLabel = '';
+
+      if (isResident) {
+        const discountedPrice = Math.round(vehiclePriceRegular * 0.89); // ~11% off
+        vehicleDiscount = vehiclePriceRegular - discountedPrice;
+        vehiclePrice = discountedPrice;
+        discountLabel = '🏖️ Descuento residente Quintana Roo';
+      } else if (isInapam) {
+        const discountedPrice = Math.round(vehiclePriceRegular * 0.90); // 10% off
+        vehicleDiscount = vehiclePriceRegular - discountedPrice;
+        vehiclePrice = discountedPrice;
+        discountLabel = '👴 Descuento INAPAM';
+      }
+
+      // Update vehicle price display
+      document.getElementById('vehiclePriceDisplay').textContent = `$${vehiclePrice}`;
+
+      // Show discount row if applicable
+      if (vehicleDiscount > 0) {
+        const discountRow = document.getElementById('vehicleDiscountRow');
+        document.getElementById('vehicleDiscountLabel').textContent = discountLabel;
+        document.getElementById('vehicleDiscountAmount').textContent = vehicleDiscount;
+        discountRow.classList.remove('d-none');
+      }
+
+      // Calculate totals (using placeholder values for now)
+      const passengersTotal = 200; // This should come from localStorage
+      const subtotal = vehiclePriceRegular + passengersTotal;
+
+      // Update displays
+      document.getElementById('subtotalDisplay').textContent = `$${subtotal}`;
+
+      // For demo purposes - hiding coupon discount if vehicle discount is shown
+      // In production, these would be calculated together
+      const total = vehiclePrice + passengersTotal;
+      document.getElementById('totalDisplay').textContent = total;
+    })();
   </script>
 
 </body>
