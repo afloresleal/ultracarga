@@ -238,6 +238,12 @@
     const isInapam = localStorage.getItem('isInapam') === 'true';
     const vehiclePriceRegular = parseInt(localStorage.getItem('vehiclePrice') || '450');
 
+    // Load passenger data from step4
+    const adults = parseInt(localStorage.getItem('adults') || '1');
+    const children = parseInt(localStorage.getItem('children') || '0');
+    const adultCost = 100;
+    const childCost = 50;
+
     // Calculate vehicle price with discount if applicable
     let vehiclePrice = vehiclePriceRegular;
     let vehicleDiscount = 0;
@@ -266,18 +272,36 @@
       discountRow.classList.remove('d-none');
     }
 
-    // Calculate totals (this would normally come from localStorage)
-    // For now using placeholder values - you can update this with actual passenger data
-    const passengersTotal = 200; // This should come from localStorage
+    // Calculate passenger costs
+    const passengersTotal = (adults * adultCost) + (children * childCost);
+    const totalPassengers = adults + children;
+
+    // Update passenger display
+    document.getElementById('passengerCount').textContent = totalPassengers;
+    document.getElementById('passengersPriceDisplay').textContent = `$${passengersTotal}`;
+
+    // Hide passengers row if no passengers (only driver)
+    if (totalPassengers === 0) {
+      document.getElementById('passengersRow').classList.add('d-none');
+    }
+
+    // Calculate subtotal (vehicle regular price + passengers)
     const subtotal = vehiclePriceRegular + passengersTotal;
+
+    // Calculate final total (vehicle with discount + passengers)
+    const finalTotal = vehiclePrice + passengersTotal;
 
     // Update displays
     document.getElementById('subtotalDisplay').textContent = `$${subtotal}`;
+    document.getElementById('totalDisplay').textContent = finalTotal;
+
+    // Update pay button text with correct amount
+    const payBtn = document.getElementById('payBtn');
+    payBtn.innerHTML = `<span>🔒</span> Confirmar y Pagar $${finalTotal} MXN`;
 
     // Enable pay button when both checkboxes are checked
     const termsCheckbox = document.getElementById('terms');
     const cancellationCheckbox = document.getElementById('cancellation');
-    const payBtn = document.getElementById('payBtn');
 
     function checkButtonState() {
       if (termsCheckbox.checked && cancellationCheckbox.checked) {

@@ -293,6 +293,12 @@
       const isInapam = localStorage.getItem('isInapam') === 'true';
       const vehiclePriceRegular = parseInt(localStorage.getItem('vehiclePrice') || '450');
 
+      // Load passenger data from step4
+      const adults = parseInt(localStorage.getItem('adults') || '1');
+      const children = parseInt(localStorage.getItem('children') || '0');
+      const adultCost = 100;
+      const childCost = 50;
+
       // Calculate vehicle price with discount if applicable
       let vehiclePrice = vehiclePriceRegular;
       let vehicleDiscount = 0;
@@ -333,17 +339,28 @@
         discountIdWarning.classList.remove('d-none');
       }
 
-      // Calculate totals (using placeholder values for now)
-      const passengersTotal = 200; // This should come from localStorage
+      // Calculate passenger costs
+      const passengersTotal = (adults * adultCost) + (children * childCost);
+      const totalPassengers = adults + children;
+
+      // Update passenger display
+      document.getElementById('passengerCount').textContent = totalPassengers;
+      document.getElementById('passengersPriceDisplay').textContent = `$${passengersTotal}`;
+
+      // Hide passengers row if no passengers (only driver)
+      if (totalPassengers === 0) {
+        document.getElementById('passengersRow').classList.add('d-none');
+      }
+
+      // Calculate subtotal (vehicle regular price + passengers)
       const subtotal = vehiclePriceRegular + passengersTotal;
+
+      // Calculate final total (vehicle with discount + passengers)
+      const finalTotal = vehiclePrice + passengersTotal;
 
       // Update displays
       document.getElementById('subtotalDisplay').textContent = `$${subtotal}`;
-
-      // For demo purposes - hiding coupon discount if vehicle discount is shown
-      // In production, these would be calculated together
-      const total = vehiclePrice + passengersTotal;
-      document.getElementById('totalDisplay').textContent = total;
+      document.getElementById('totalDisplay').textContent = finalTotal;
     })();
   </script>
 
