@@ -32,7 +32,7 @@
   <div class="progress-bar-wizard">
     <div class="progress-step progress-step--active">
       <div class="progress-step__number">1</div>
-      <div class="progress-step__label">Ruta</div>
+      <div class="progress-step__label">Fecha</div>
     </div>
     <div class="progress-step">
       <div class="progress-step__number">2</div>
@@ -267,7 +267,7 @@
 
       // Auto-navigate to next step after short delay (visual feedback)
       setTimeout(() => {
-        window.location.href = 'step2-vehicle.html';
+        window.location.href = 'step3-schedule.html';
       }, 300);
     }
 
@@ -295,7 +295,7 @@
     // Navigate to schedule
     function goToSchedule() {
       if (selectedDate) {
-        window.location.href = 'step2-vehicle.html';
+        window.location.href = 'step3-schedule.html';
       }
     }
 
