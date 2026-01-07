@@ -107,54 +107,54 @@
       <!-- PASSENGERS GRID -->
       <div class="row g-3">
         <!-- ADULTS -->
-        <div class="col-12 col-md-6">
-          <label class="form-label fw-semibold">👤 Adultos</label>
-          <div class="counter">
-            <button type="button" class="counter__btn" id="decrementAdultsBtn" onclick="changeAdults(-1)">−</button>
-            <div class="counter__value" id="adultCount">1</div>
-            <button type="button" class="counter__btn" id="incrementAdultsBtn" onclick="changeAdults(1)">+</button>
-            <div class="counter__icon">👤</div>
+        <div class="col-12">
+          <div class="d-flex justify-content-between align-items-center p-3 rounded" style="background-color: #F9FAFB; border: 1px solid #E5E7EB;">
+            <div>
+              <div class="fw-semibold text-uc-secondary mb-1">👤 Adultos</div>
+              <div class="small text-muted">$100 MXN por adulto</div>
+            </div>
+            <div class="d-flex align-items-center gap-3">
+              <button type="button" class="btn btn-outline-secondary btn-sm" id="decrementAdultsBtn" onclick="changeAdults(-1)" style="width: 36px; height: 36px; padding: 0;">−</button>
+              <div class="fw-bold text-uc-secondary" style="font-size: 1.25rem; min-width: 24px; text-align: center;" id="adultCount">1</div>
+              <button type="button" class="btn btn-outline-secondary btn-sm" id="incrementAdultsBtn" onclick="changeAdults(1)" style="width: 36px; height: 36px; padding: 0;">+</button>
+            </div>
           </div>
-          <p class="text-muted small text-center mt-2 mb-0">
-            Costo adicional: <strong>$100 MXN por adulto</strong>
-          </p>
         </div>
 
         <!-- CHILDREN -->
-        <div class="col-12 col-md-6">
-          <label class="form-label fw-semibold">🧒 Niños (0-12 años)</label>
-          <div class="counter">
-            <button type="button" class="counter__btn" id="decrementChildrenBtn" onclick="changeChildren(-1)">−</button>
-            <div class="counter__value" id="childCount">0</div>
-            <button type="button" class="counter__btn" id="incrementChildrenBtn" onclick="changeChildren(1)">+</button>
-            <div class="counter__icon">🧒</div>
+        <div class="col-12">
+          <div class="d-flex justify-content-between align-items-center p-3 rounded" style="background-color: #F9FAFB; border: 1px solid #E5E7EB;">
+            <div>
+              <div class="fw-semibold text-uc-secondary mb-1">🧒 Niños (0-12 años)</div>
+              <div class="small text-muted">$50 MXN por niño</div>
+            </div>
+            <div class="d-flex align-items-center gap-3">
+              <button type="button" class="btn btn-outline-secondary btn-sm" id="decrementChildrenBtn" onclick="changeChildren(-1)" style="width: 36px; height: 36px; padding: 0;">−</button>
+              <div class="fw-bold text-uc-secondary" style="font-size: 1.25rem; min-width: 24px; text-align: center;" id="childCount">0</div>
+              <button type="button" class="btn btn-outline-secondary btn-sm" id="incrementChildrenBtn" onclick="changeChildren(1)" style="width: 36px; height: 36px; padding: 0;">+</button>
+            </div>
           </div>
-          <p class="text-muted small text-center mt-2 mb-0">
-            Costo adicional: <strong>$50 MXN por niño</strong>
-          </p>
         </div>
       </div>
 
       <hr class="my-4">
 
       <!-- DISCOUNTS SECTION -->
-      <div class="card mb-4" style="background: linear-gradient(135deg, #F0F4F8 0%, #E2E8F0 100%); border: 1px solid #CBD5E0;">
-        <div class="card-body">
-          <h6 class="fw-bold text-uc-secondary mb-3">💰 Descuentos por pasajero</h6>
-          <p class="small text-muted mb-3">Selecciona los descuentos que aplican para cada pasajero</p>
+      <div class="mb-4">
+        <h6 class="fw-bold text-uc-secondary mb-2">💰 Descuentos por pasajero</h6>
+        <p class="small text-muted mb-3">Selecciona si algún pasajero tiene descuento</p>
 
-          <!-- PASSENGERS DISCOUNT LIST -->
-          <div id="passengersDiscountList">
-            <!-- Will be populated dynamically -->
-          </div>
+        <!-- PASSENGERS DISCOUNT LIST -->
+        <div id="passengersDiscountList">
+          <!-- Will be populated dynamically -->
+        </div>
 
-          <!-- Warning Alert (Hidden by default) -->
-          <div class="alert alert-warning mb-0 py-2 px-3 d-none mt-3" id="discountWarning" style="background-color: #fff3cd; border-color: #ffc107; font-size: 0.85rem;">
-            <div class="d-flex align-items-start gap-2">
-              <span>⚠️</span>
-              <div>
-                <strong>Importante:</strong> <span id="warningText">Deberás presentar identificación oficial o credencial vigente al abordar.</span>
-              </div>
+        <!-- Warning Alert (Hidden by default) -->
+        <div class="alert alert-warning mb-0 py-2 px-3 d-none mt-3" id="discountWarning" style="background-color: #FEF3C7; border: 1px solid #FCD34D; font-size: 0.85rem;">
+          <div class="d-flex align-items-start gap-2">
+            <span style="font-size: 1rem;">⚠️</span>
+            <div class="small">
+              <strong>Importante:</strong> <span id="warningText">Deberás presentar identificación oficial o credencial vigente al abordar.</span>
             </div>
           </div>
         </div>
@@ -359,33 +359,33 @@
 
     function createPassengerDiscountRow(index, type, label, subtitle) {
       const row = document.createElement('div');
-      row.className = 'passenger-discount-row mb-3 pb-3';
-      if (index > 0) {
-        row.style.borderTop = '1px solid #CBD5E0';
-        row.style.paddingTop = '0.75rem';
-      }
+      row.className = 'passenger-discount-row mb-2';
 
       row.innerHTML = `
-        <div class="d-flex justify-content-between align-items-start mb-2">
-          <div>
-            <div class="fw-semibold text-uc-secondary small">${label}</div>
-            ${subtitle ? `<div class="text-muted" style="font-size: 0.75rem;">${subtitle}</div>` : ''}
+        <div class="p-3 rounded" style="background-color: #F9FAFB; border: 1px solid #E5E7EB;">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <div>
+              <div class="fw-semibold text-uc-secondary small">${label}</div>
+              ${subtitle ? `<div class="text-muted" style="font-size: 0.7rem;">${subtitle}</div>` : ''}
+            </div>
           </div>
-        </div>
-        <div class="d-flex gap-2">
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" id="resident-${index}"
-              onchange="handlePassengerDiscount(${index}, 'resident', '${type}')">
-            <label class="form-check-label small" for="resident-${index}">
-              🏖️ Residente QRoo
-            </label>
-          </div>
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" id="inapam-${index}"
-              onchange="handlePassengerDiscount(${index}, 'inapam', '${type}')">
-            <label class="form-check-label small" for="inapam-${index}">
-              👴 INAPAM
-            </label>
+          <div class="d-flex gap-3">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="resident-${index}"
+                onchange="handlePassengerDiscount(${index}, 'resident', '${type}')"
+                style="width: 1.25rem; height: 1.25rem; cursor: pointer;">
+              <label class="form-check-label small ms-1" for="resident-${index}" style="cursor: pointer; line-height: 1.25rem;">
+                🏖️ Residente QRoo
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="inapam-${index}"
+                onchange="handlePassengerDiscount(${index}, 'inapam', '${type}')"
+                style="width: 1.25rem; height: 1.25rem; cursor: pointer;">
+              <label class="form-check-label small ms-1" for="inapam-${index}" style="cursor: pointer; line-height: 1.25rem;">
+                👴 INAPAM
+              </label>
+            </div>
           </div>
         </div>
       `;
