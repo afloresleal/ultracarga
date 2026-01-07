@@ -320,6 +320,18 @@
       const row = document.createElement('div');
       row.className = 'passenger-discount-row mb-2';
 
+      // Children can only have Resident discount, not INAPAM (adults 65+ only)
+      const inapamCheckbox = type !== 'child' ? `
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" id="inapam-${index}"
+            onchange="handlePassengerDiscount(${index}, 'inapam', '${type}')"
+            style="width: 1.25rem; height: 1.25rem; cursor: pointer;">
+          <label class="form-check-label small ms-1" for="inapam-${index}" style="cursor: pointer; line-height: 1.25rem;">
+            👴 INAPAM (65+)
+          </label>
+        </div>
+      ` : '';
+
       row.innerHTML = `
         <div class="p-3 rounded" style="background-color: #F9FAFB; border: 1px solid #E5E7EB;">
           <div class="d-flex justify-content-between align-items-center mb-2">
@@ -337,14 +349,7 @@
                 🏖️ Residente QRoo
               </label>
             </div>
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" id="inapam-${index}"
-                onchange="handlePassengerDiscount(${index}, 'inapam', '${type}')"
-                style="width: 1.25rem; height: 1.25rem; cursor: pointer;">
-              <label class="form-check-label small ms-1" for="inapam-${index}" style="cursor: pointer; line-height: 1.25rem;">
-                👴 INAPAM
-              </label>
-            </div>
+            ${inapamCheckbox}
           </div>
         </div>
       `;
