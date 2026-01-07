@@ -54,7 +54,7 @@
 
   <!-- CONTENT -->
   <div class="container py-4" style="max-width: 800px;">
-    <h2 class="h4 fw-bold text-uc-secondary mb-4">Información del vehículo</h2>
+    <h2 class="h4 fw-bold text-uc-secondary mb-4">Vehículo y conductor</h2>
 
     <form id="vehicleForm">
       <!-- VEHICLES SECTION -->
@@ -246,6 +246,42 @@
         >
       </div>
 
+      <hr class="my-4">
+
+      <!-- DRIVER INFO -->
+      <h5 class="h6 fw-bold text-uc-secondary mb-3">Datos del conductor</h5>
+
+      <div class="mb-3">
+        <label for="driverName" class="form-label">Nombre completo</label>
+        <input
+          type="text"
+          id="driverName"
+          class="form-control"
+          placeholder="Juan Pérez García"
+        >
+      </div>
+
+      <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input
+          type="email"
+          id="email"
+          class="form-control"
+          placeholder="juan.perez@email.com"
+        >
+        <div class="form-text">Te enviaremos la confirmación a este correo</div>
+      </div>
+
+      <div class="mb-3">
+        <label for="phone" class="form-label">Teléfono</label>
+        <input
+          type="tel"
+          id="phone"
+          class="form-control"
+          placeholder="+52 998 123 4567"
+        >
+      </div>
+
       <!-- NAVIGATION BUTTONS -->
       <button type="button" class="btn btn-primary btn-lg w-100 mb-3" id="continueBtn" onclick="goToPassengerData()">
         Continuar
@@ -372,10 +408,15 @@
     }
 
     function goToPassengerData() {
-      // Store form data
+      // Store vehicle data
       localStorage.setItem('licensePlate', document.getElementById('licensePlate').value);
       localStorage.setItem('brand', document.getElementById('brand').value);
       localStorage.setItem('model', document.getElementById('model').value);
+
+      // Store driver data
+      localStorage.setItem('driverName', document.getElementById('driverName').value);
+      localStorage.setItem('email', document.getElementById('email').value);
+      localStorage.setItem('phone', document.getElementById('phone').value);
 
       // Navigate to passenger data (step 4)
       window.location.href = 'step4-passenger.html';
