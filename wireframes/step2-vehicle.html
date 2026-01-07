@@ -61,66 +61,58 @@
       <div class="mb-4">
         <h6 class="fw-bold text-uc-secondary mb-3">🚗 Vehículos</h6>
 
-        <div class="row g-2">
+        <div class="d-flex flex-column gap-2">
           <!-- OPTION 3: MOTORCYCLE -->
-          <div class="col-12 col-md-6">
-            <div class="card card-selectable h-100" onclick="selectVehicleType(this, 'motorcycle')" data-vehicle-type="motorcycle">
-              <div class="card-body py-2 px-3">
-                <div class="d-flex align-items-center gap-2">
-                  <input type="radio" name="vehicleType" value="motorcycle" id="motorcycle" class="form-check-input">
-                  <div class="flex-grow-1">
-                    <h6 class="card-title mb-0 text-uc-secondary">🏍️ Motocicleta</h6>
-                    <p class="card-text text-muted small mb-1">Hasta 500 kg</p>
-                    <p class="fw-bold text-uc-secondary mb-0 vehicle-price" data-regular="280" data-resident="250" data-inapam="252">$280 MXN</p>
-                  </div>
+          <div class="card card-selectable" onclick="selectVehicleType(this, 'motorcycle')" data-vehicle-type="motorcycle">
+            <div class="card-body py-2 px-3">
+              <div class="d-flex align-items-center gap-2">
+                <input type="radio" name="vehicleType" value="motorcycle" id="motorcycle" class="form-check-input">
+                <div class="flex-grow-1">
+                  <h6 class="card-title mb-0 text-uc-secondary">🏍️ Motocicleta</h6>
+                  <p class="card-text text-muted small mb-1">Hasta 500 kg</p>
+                  <p class="fw-bold text-uc-secondary mb-0 vehicle-price" data-regular="280" data-resident="250" data-inapam="252">$280 MXN</p>
                 </div>
               </div>
             </div>
           </div>
 
           <!-- OPTION 4: CAR (SELECTED) -->
-          <div class="col-12 col-md-6">
-            <div class="card card-selectable selected h-100" onclick="selectVehicleType(this, 'car')" data-vehicle-type="car">
-              <div class="card-body py-2 px-3">
-                <div class="d-flex align-items-center gap-2">
-                  <input type="radio" name="vehicleType" value="car" id="car" checked class="form-check-input">
-                  <div class="flex-grow-1">
-                    <h6 class="card-title mb-0 text-uc-secondary">🚗 Automóvil</h6>
-                    <p class="card-text text-muted small mb-1">Sedán, hatchback, compacto</p>
-                    <p class="fw-bold text-uc-secondary mb-0 vehicle-price" data-regular="450" data-resident="400" data-inapam="405">$450 MXN</p>
-                  </div>
+          <div class="card card-selectable selected" onclick="selectVehicleType(this, 'car')" data-vehicle-type="car">
+            <div class="card-body py-2 px-3">
+              <div class="d-flex align-items-center gap-2">
+                <input type="radio" name="vehicleType" value="car" id="car" checked class="form-check-input">
+                <div class="flex-grow-1">
+                  <h6 class="card-title mb-0 text-uc-secondary">🚗 Automóvil</h6>
+                  <p class="card-text text-muted small mb-1">Sedán, hatchback, compacto</p>
+                  <p class="fw-bold text-uc-secondary mb-0 vehicle-price" data-regular="450" data-resident="400" data-inapam="405">$450 MXN</p>
                 </div>
               </div>
             </div>
           </div>
 
           <!-- OPTION 5: SUV -->
-          <div class="col-12 col-md-6">
-            <div class="card card-selectable h-100" onclick="selectVehicleType(this, 'suv')" data-vehicle-type="suv">
-              <div class="card-body py-2 px-3">
-                <div class="d-flex align-items-center gap-2">
-                  <input type="radio" name="vehicleType" value="suv" id="suv" class="form-check-input">
-                  <div class="flex-grow-1">
-                    <h6 class="card-title mb-0 text-uc-secondary">🚙 Camioneta/SUV</h6>
-                    <p class="card-text text-muted small mb-1">Pick-up, van, SUV</p>
-                    <p class="fw-bold text-uc-secondary mb-0 vehicle-price" data-regular="620" data-resident="550" data-inapam="558">$620 MXN</p>
-                  </div>
+          <div class="card card-selectable" onclick="selectVehicleType(this, 'suv')" data-vehicle-type="suv">
+            <div class="card-body py-2 px-3">
+              <div class="d-flex align-items-center gap-2">
+                <input type="radio" name="vehicleType" value="suv" id="suv" class="form-check-input">
+                <div class="flex-grow-1">
+                  <h6 class="card-title mb-0 text-uc-secondary">🚙 Camioneta/SUV</h6>
+                  <p class="card-text text-muted small mb-1">Pick-up, van, SUV</p>
+                  <p class="fw-bold text-uc-secondary mb-0 vehicle-price" data-regular="620" data-resident="550" data-inapam="558">$620 MXN</p>
                 </div>
               </div>
             </div>
           </div>
 
           <!-- OPTION 1: PASSENGER -->
-          <div class="col-12">
-            <div class="card card-selectable" onclick="selectVehicleType(this, 'passenger')" data-vehicle-type="passenger">
-              <div class="card-body py-2 px-3">
-                <div class="d-flex align-items-center gap-2">
-                  <input type="radio" name="vehicleType" value="passenger" id="passenger" class="form-check-input">
-                  <div class="flex-grow-1">
-                    <h6 class="card-title mb-0 text-uc-secondary">👤 Pasajero sin vehículo</h6>
-                    <p class="card-text text-muted small mb-1">La cantidad de niños/adultos se especifica en el paso 4</p>
-                    <p class="fw-bold text-uc-secondary mb-0 vehicle-price" data-regular="265" data-resident="240" data-inapam="239">$265 MXN</p>
-                  </div>
+          <div class="card card-selectable" onclick="selectVehicleType(this, 'passenger')" data-vehicle-type="passenger">
+            <div class="card-body py-2 px-3">
+              <div class="d-flex align-items-center gap-2">
+                <input type="radio" name="vehicleType" value="passenger" id="passenger" class="form-check-input">
+                <div class="flex-grow-1">
+                  <h6 class="card-title mb-0 text-uc-secondary">👤 Pasajero sin vehículo</h6>
+                  <p class="card-text text-muted small mb-1">La cantidad de niños/adultos se especifica en el paso 4</p>
+                  <p class="fw-bold text-uc-secondary mb-0 vehicle-price" data-regular="265" data-resident="240" data-inapam="239">$265 MXN</p>
                 </div>
               </div>
             </div>
