@@ -93,13 +93,13 @@
           </div>
           <div class="col-6">
             <div class="text-muted small">VEHÍCULO</div>
-            <div class="fw-semibold text-uc-secondary small">Toyota Corolla Blanco</div>
-            <div class="text-muted" style="font-size: 0.7rem;">ABC-123-4</div>
+            <div class="fw-semibold text-uc-secondary small" id="vehicleDetails">Automóvil</div>
+            <div class="text-muted" style="font-size: 0.7rem;" id="licensePlateDetails">ABC-123-4</div>
           </div>
           <div class="col-6">
             <div class="text-muted small">PASAJEROS</div>
-            <div class="fw-semibold text-uc-secondary small">Juan Pérez García</div>
-            <div class="text-muted" style="font-size: 0.7rem;">+ 2 acompañantes</div>
+            <div class="fw-semibold text-uc-secondary small" id="driverNameDetails">Conductor</div>
+            <div class="text-muted" style="font-size: 0.7rem;" id="passengersDetails">+ 2 acompañantes</div>
           </div>
         </div>
       </div>
@@ -298,6 +298,39 @@
     // Update pay button text with correct amount
     const payBtn = document.getElementById('payBtn');
     payBtn.innerHTML = `<span>🔒</span> Confirmar y Pagar $${finalTotal} MXN`;
+
+    // Update boarding pass details
+    const driverName = localStorage.getItem('driverName') || 'Conductor';
+    const vehicleType = localStorage.getItem('vehicleType') || 'car';
+    const licensePlate = localStorage.getItem('licensePlate') || '';
+    const brand = localStorage.getItem('brand') || '';
+    const model = localStorage.getItem('model') || '';
+
+    // Vehicle type labels
+    const vehicleTypeLabels = {
+      'passenger': 'Pasajero sin vehículo',
+      'motorcycle': 'Motocicleta',
+      'car': 'Automóvil',
+      'suv': 'Camioneta/SUV'
+    };
+
+    // Update vehicle details
+    let vehicleLabel = vehicleTypeLabels[vehicleType] || 'Automóvil';
+    if (brand && model) {
+      vehicleLabel = `${brand} ${model}`;
+    }
+    document.getElementById('vehicleDetails').textContent = vehicleLabel;
+    document.getElementById('licensePlateDetails').textContent = licensePlate || '-';
+
+    // Update driver name
+    document.getElementById('driverNameDetails').textContent = driverName;
+
+    // Update passengers count
+    if (totalPassengers > 0) {
+      document.getElementById('passengersDetails').textContent = `+ ${totalPassengers} acompañante${totalPassengers > 1 ? 's' : ''}`;
+    } else {
+      document.getElementById('passengersDetails').textContent = 'Solo conductor';
+    }
 
     // Enable pay button when both checkboxes are checked
     const termsCheckbox = document.getElementById('terms');

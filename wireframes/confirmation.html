@@ -110,19 +110,20 @@
           </div>
           <div class="col-6">
             <div class="text-muted small">VEHÍCULO</div>
-            <div class="fw-semibold text-uc-secondary small">ABC-123-4</div>
+            <div class="fw-semibold text-uc-secondary small" id="vehicleDetailsConfirmation">Automóvil</div>
+            <div class="text-muted" style="font-size: 0.7rem;" id="licensePlateConfirmation">ABC-123-4</div>
           </div>
           <div class="col-6">
             <div class="text-muted small">PASAJEROS</div>
-            <div class="fw-semibold text-uc-secondary small">Juan Pérez</div>
-            <div class="text-muted" style="font-size: 0.7rem;">+ 2 acompañantes</div>
+            <div class="fw-semibold text-uc-secondary small" id="driverNameConfirmation">Conductor</div>
+            <div class="text-muted" style="font-size: 0.7rem;" id="passengersConfirmation">+ 2 acompañantes</div>
           </div>
         </div>
 
         <!-- PAYMENT INFO -->
         <div class="text-center mb-3">
           <div class="text-muted small">TOTAL PAGADO</div>
-          <div class="fw-bold text-success fs-4">$553 MXN</div>
+          <div class="fw-bold text-success fs-4">$<span id="totalPaidConfirmation">553</span> MXN</div>
         </div>
 
         <!-- BARCODE -->
@@ -361,6 +362,42 @@
       // Update displays
       document.getElementById('subtotalDisplay').textContent = `$${subtotal}`;
       document.getElementById('totalDisplay').textContent = finalTotal;
+
+      // Update boarding pass details
+      const driverName = localStorage.getItem('driverName') || 'Conductor';
+      const vehicleType = localStorage.getItem('vehicleType') || 'car';
+      const licensePlate = localStorage.getItem('licensePlate') || '';
+      const brand = localStorage.getItem('brand') || '';
+      const model = localStorage.getItem('model') || '';
+
+      // Vehicle type labels
+      const vehicleTypeLabels = {
+        'passenger': 'Pasajero sin vehículo',
+        'motorcycle': 'Motocicleta',
+        'car': 'Automóvil',
+        'suv': 'Camioneta/SUV'
+      };
+
+      // Update vehicle details
+      let vehicleLabel = vehicleTypeLabels[vehicleType] || 'Automóvil';
+      if (brand && model) {
+        vehicleLabel = `${brand} ${model}`;
+      }
+      document.getElementById('vehicleDetailsConfirmation').textContent = vehicleLabel;
+      document.getElementById('licensePlateConfirmation').textContent = licensePlate || '-';
+
+      // Update driver name
+      document.getElementById('driverNameConfirmation').textContent = driverName;
+
+      // Update passengers count
+      if (totalPassengers > 0) {
+        document.getElementById('passengersConfirmation').textContent = `+ ${totalPassengers} acompañante${totalPassengers > 1 ? 's' : ''}`;
+      } else {
+        document.getElementById('passengersConfirmation').textContent = 'Solo conductor';
+      }
+
+      // Update total paid
+      document.getElementById('totalPaidConfirmation').textContent = finalTotal;
     })();
   </script>
 
