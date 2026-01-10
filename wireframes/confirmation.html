@@ -67,16 +67,20 @@
     <hr class="my-4">
 
     <!-- TRIP DETAILS -->
-    <h5 class="h6 fw-bold text-uc-secondary mb-3">Detalles de tu viaje</h5>
+    <h5 class="h6 fw-bold text-uc-secondary mb-3" id="tripDetailsTitle">Detalles de tu viaje</h5>
 
-    <!-- BOARDING PASS STYLE TICKET -->
-    <div class="card mb-4" style="border: 2px dashed #162B6B; background: linear-gradient(to right, #ffffff 0%, #f8f9fa 100%);">
-      <div class="card-body p-3">
-        <!-- TICKET HEADER -->
-        <div class="text-center mb-3 pb-2" style="border-bottom: 2px dashed #dee2e6;">
-          <div class="text-muted small mb-1">CÓDIGO DE RESERVA</div>
-          <div class="fw-bold text-uc-secondary" style="font-size: 1.25rem; letter-spacing: 2px; font-family: monospace;">UC-2024-001234</div>
-        </div>
+    <!-- OUTBOUND TRIP TICKET -->
+    <div id="outboundTicket">
+      <h6 class="small text-muted fw-semibold mb-2" id="outboundLabel" style="display: none;">VIAJE DE IDA</h6>
+
+      <!-- BOARDING PASS STYLE TICKET -->
+      <div class="card mb-4" style="border: 2px dashed #162B6B; background: linear-gradient(to right, #ffffff 0%, #f8f9fa 100%);">
+        <div class="card-body p-3">
+          <!-- TICKET HEADER -->
+          <div class="text-center mb-3 pb-2" style="border-bottom: 2px dashed #dee2e6;">
+            <div class="text-muted small mb-1">CÓDIGO DE RESERVA</div>
+            <div class="fw-bold text-uc-secondary" style="font-size: 1.25rem; letter-spacing: 2px; font-family: monospace;">UC-2024-001234</div>
+          </div>
 
         <!-- ROUTE INFO -->
         <div class="row mb-3">
@@ -120,18 +124,77 @@
           </div>
         </div>
 
-        <!-- PAYMENT INFO -->
-        <div class="text-center mb-3">
-          <div class="text-muted small">TOTAL PAGADO</div>
-          <div class="fw-bold text-success fs-4">$<span id="totalPaidConfirmation">553</span> MXN</div>
-        </div>
-
         <!-- BARCODE -->
-        <div class="text-center">
+        <div class="text-center mt-3">
           <div style="display: inline-block; background: repeating-linear-gradient(90deg, #000 0px, #000 2px, #fff 2px, #fff 4px); height: 40px; width: 200px;"></div>
           <div class="text-muted mt-1" style="font-size: 0.65rem; font-family: monospace; letter-spacing: 3px;">UC2024001234</div>
         </div>
       </div>
+    </div>
+    </div>
+
+    <!-- RETURN TRIP TICKET (only for roundtrip) -->
+    <div id="returnTicket" style="display: none;">
+      <h6 class="small text-muted fw-semibold mb-2">VIAJE DE VUELTA</h6>
+
+      <!-- BOARDING PASS STYLE TICKET -->
+      <div class="card mb-4" style="border: 2px dashed #162B6B; background: linear-gradient(to right, #ffffff 0%, #f8f9fa 100%);">
+        <div class="card-body p-3">
+          <!-- TICKET HEADER -->
+          <div class="text-center mb-3 pb-2" style="border-bottom: 2px dashed #dee2e6;">
+            <div class="text-muted small mb-1">CÓDIGO DE RESERVA</div>
+            <div class="fw-bold text-uc-secondary" style="font-size: 1.25rem; letter-spacing: 2px; font-family: monospace;">UC-2024-001234-R</div>
+          </div>
+
+        <!-- ROUTE INFO (RETURN - REVERSED) -->
+        <div class="row mb-3">
+          <div class="col-5 text-center">
+            <div class="text-muted small">ORIGEN</div>
+            <div class="fw-bold text-uc-secondary fs-5" id="returnOriginName">Cozumel</div>
+            <div class="text-muted small" id="returnOriginDetails">Isla de Cozumel</div>
+          </div>
+          <div class="col-2 d-flex align-items-center justify-content-center">
+            <div class="text-center">
+              <div class="fs-4">🚢</div>
+              <div class="text-muted" style="font-size: 0.65rem;">45 min</div>
+            </div>
+          </div>
+          <div class="col-5 text-center">
+            <div class="text-muted small">DESTINO</div>
+            <div class="fw-bold text-uc-secondary fs-5" id="returnDestinationName">Calica</div>
+            <div class="text-muted small" id="returnDestinationDetails">Playa del Carmen</div>
+          </div>
+        </div>
+
+        <!-- TRIP DETAILS -->
+        <div class="row g-2 mb-3 pb-3" style="border-bottom: 1px dashed #dee2e6;">
+          <div class="col-6">
+            <div class="text-muted small">FECHA</div>
+            <div class="fw-semibold text-uc-secondary small" id="returnDateDisplay">Domingo, 31 Dic 2025</div>
+          </div>
+          <div class="col-6">
+            <div class="text-muted small">EMBARQUE</div>
+            <div class="fw-semibold text-uc-secondary small" id="returnScheduleDisplay">09:00 AM</div>
+          </div>
+          <div class="col-6">
+            <div class="text-muted small">VEHÍCULO</div>
+            <div class="fw-semibold text-uc-secondary small" id="returnVehicleDetails">Automóvil</div>
+            <div class="text-muted" style="font-size: 0.7rem;" id="returnLicensePlate">ABC-123-4</div>
+          </div>
+          <div class="col-6">
+            <div class="text-muted small">PASAJEROS</div>
+            <div class="fw-semibold text-uc-secondary small" id="returnDriverName">Conductor</div>
+            <div class="text-muted" style="font-size: 0.7rem;" id="returnPassengers">+ 2 acompañantes</div>
+          </div>
+        </div>
+
+        <!-- BARCODE -->
+        <div class="text-center mt-3">
+          <div style="display: inline-block; background: repeating-linear-gradient(90deg, #000 0px, #000 2px, #fff 2px, #fff 4px); height: 40px; width: 200px;"></div>
+          <div class="text-muted mt-1" style="font-size: 0.65rem; font-family: monospace; letter-spacing: 3px;">UC2024001234R</div>
+        </div>
+      </div>
+    </div>
     </div>
 
     <!-- EMAIL CONFIRMATION -->
@@ -287,9 +350,61 @@
       window.location.href = 'index.html';
     }
 
+    // Initialize page for roundtrip if applicable
+    (function initRoundtrip() {
+      const tripType = localStorage.getItem('tripType') || 'oneway';
+
+      if (tripType === 'roundtrip') {
+        // Show roundtrip elements
+        document.getElementById('outboundLabel').style.display = 'block';
+        document.getElementById('returnTicket').style.display = 'block';
+        document.getElementById('tripDetailsTitle').textContent = 'Detalles de tus viajes';
+
+        // Populate return ticket with data
+        const selectedReturnDate = localStorage.getItem('selectedReturnDate');
+        const selectedRoute = localStorage.getItem('selectedRoute') || 'calica-cozumel';
+
+        // Update return date
+        if (selectedReturnDate) {
+          const returnDate = new Date(selectedReturnDate);
+          const options = { weekday: 'long', day: 'numeric', month: 'short', year: 'numeric' };
+          document.getElementById('returnDateDisplay').textContent = returnDate.toLocaleDateString('es-ES', options);
+        }
+
+        // Update return schedule
+        const selectedReturnSchedule = localStorage.getItem('selectedReturnSchedule');
+        if (selectedReturnSchedule) {
+          // Extract time from schedule ID (simplified)
+          document.getElementById('returnScheduleDisplay').textContent = '09:00 AM'; // Default, could parse from ID
+        }
+
+        // Reverse route for return
+        if (selectedRoute === 'calica-cozumel') {
+          document.getElementById('returnOriginName').textContent = 'Cozumel';
+          document.getElementById('returnOriginDetails').textContent = 'Isla de Cozumel';
+          document.getElementById('returnDestinationName').textContent = 'Calica';
+          document.getElementById('returnDestinationDetails').textContent = 'Playa del Carmen';
+        } else if (selectedRoute === 'puntasam-islamujeres') {
+          document.getElementById('returnOriginName').textContent = 'Isla Mujeres';
+          document.getElementById('returnOriginDetails').textContent = 'Isla Mujeres';
+          document.getElementById('returnDestinationName').textContent = 'Punta Sam';
+          document.getElementById('returnDestinationDetails').textContent = 'Cancún';
+        }
+
+        // Copy vehicle and passenger info to return ticket
+        setTimeout(() => {
+          document.getElementById('returnVehicleDetails').textContent = document.getElementById('vehicleDetailsConfirmation').textContent;
+          document.getElementById('returnLicensePlate').textContent = document.getElementById('licensePlateConfirmation').textContent;
+          document.getElementById('returnDriverName').textContent = document.getElementById('driverNameConfirmation').textContent;
+          document.getElementById('returnPassengers').textContent = document.getElementById('passengersConfirmation').textContent;
+        }, 100);
+      }
+    })();
+
     // Load and display payment breakdown with discount
     (function initPaymentBreakdown() {
       // Load data from localStorage
+      const tripType = localStorage.getItem('tripType') || 'oneway';
       const isResident = localStorage.getItem('isResident') === 'true';
       const isInapam = localStorage.getItem('isInapam') === 'true';
       const vehiclePriceRegular = parseInt(localStorage.getItem('vehiclePrice') || '450');
@@ -344,20 +459,33 @@
       const passengersTotal = (adults * adultCost) + (children * childCost);
       const totalPassengers = adults + children;
 
+      // For roundtrip, double the costs
+      const tripMultiplier = (tripType === 'roundtrip') ? 2 : 1;
+      const vehiclePriceTotal = vehiclePrice * tripMultiplier;
+      const vehiclePriceRegularTotal = vehiclePriceRegular * tripMultiplier;
+      const passengersTotalForTrip = passengersTotal * tripMultiplier;
+      const vehicleDiscountTotal = vehicleDiscount * tripMultiplier;
+
       // Update passenger display
       document.getElementById('passengerCount').textContent = totalPassengers;
-      document.getElementById('passengersPriceDisplay').textContent = `$${passengersTotal}`;
+      document.getElementById('passengersPriceDisplay').textContent = `$${passengersTotalForTrip}`;
+
+      // Update vehicle price display (show total for roundtrip)
+      document.getElementById('vehiclePriceDisplay').textContent = `$${vehiclePriceTotal}`;
+      if (vehicleDiscountTotal > 0) {
+        document.getElementById('vehicleDiscountAmount').textContent = vehicleDiscountTotal;
+      }
 
       // Hide passengers row if no passengers (only driver)
       if (totalPassengers === 0) {
         document.getElementById('passengersRow').classList.add('d-none');
       }
 
-      // Calculate subtotal (vehicle regular price + passengers)
-      const subtotal = vehiclePriceRegular + passengersTotal;
+      // Calculate subtotal (vehicle regular price + passengers) - for roundtrip
+      const subtotal = vehiclePriceRegularTotal + passengersTotalForTrip;
 
-      // Calculate final total (vehicle with discount + passengers)
-      const finalTotal = vehiclePrice + passengersTotal;
+      // Calculate final total (vehicle with discount + passengers) - for roundtrip
+      const finalTotal = vehiclePriceTotal + passengersTotalForTrip;
 
       // Update displays
       document.getElementById('subtotalDisplay').textContent = `$${subtotal}`;
@@ -395,9 +523,6 @@
       } else {
         document.getElementById('passengersConfirmation').textContent = 'Solo conductor';
       }
-
-      // Update total paid
-      document.getElementById('totalPaidConfirmation').textContent = finalTotal;
     })();
   </script>
 

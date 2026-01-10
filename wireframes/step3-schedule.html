@@ -54,34 +54,58 @@
 
   <!-- CONTENT -->
   <div class="container py-4" style="max-width: 800px;">
-    <h2 class="h4 fw-bold text-uc-secondary mb-4">Selecciona tu horario</h2>
+    <h2 class="h4 fw-bold text-uc-secondary mb-4" id="pageTitle">Selecciona tu horario</h2>
 
     <!-- CONTEXT INFO -->
-    <div class="card mb-4">
+    <div class="card mb-4" id="contextInfo">
       <div class="card-body">
         <div class="d-flex justify-content-between align-items-center mb-2">
           <div class="text-muted small">📅 Fecha:</div>
-          <div class="fw-semibold">Viernes, 29 Dic 2025</div>
+          <div class="fw-semibold" id="dateDisplay">Viernes, 29 Dic 2025</div>
+        </div>
+        <div class="d-flex justify-content-between align-items-center" id="returnDateRow" style="display: none !important;">
+          <div class="text-muted small">📅 Fecha vuelta:</div>
+          <div class="fw-semibold" id="returnDateDisplay"></div>
         </div>
         <div class="d-flex justify-content-between align-items-center">
           <div class="text-muted small">🚢 Ruta:</div>
-          <div class="fw-semibold">Calica → Cozumel</div>
+          <div class="fw-semibold" id="routeDisplay">Calica → Cozumel</div>
         </div>
       </div>
     </div>
 
     <!-- INFO BANNER -->
-    <div class="alert alert-info d-flex align-items-start gap-2 mb-4">
+    <div class="alert alert-info d-flex align-items-start gap-2 mb-4" id="infoBanner">
       <div class="fs-5">ℹ️</div>
       <div>
-        <p class="mb-0 small">
+        <p class="mb-0 small" id="infoBannerText">
           Selecciona el horario que mejor se ajuste a tus planes
         </p>
       </div>
     </div>
 
-    <!-- SCHEDULE OPTIONS -->
-    <form id="scheduleForm">
+    <!-- SELECTED SCHEDULES DISPLAY (for roundtrip) -->
+    <div id="selectedSchedulesDisplay" class="card mb-4" style="display: none;">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-12 col-md-6">
+            <div class="text-muted small mb-2">🚢 Horario de Ida:</div>
+            <div class="fw-semibold text-uc-secondary" id="selectedOutboundScheduleText">No seleccionado</div>
+          </div>
+          <div class="col-12 col-md-6" id="returnScheduleCol" style="display: none;">
+            <div class="text-muted small mb-2">🔄 Horario de Vuelta:</div>
+            <div class="fw-semibold text-uc-secondary" id="selectedReturnScheduleText">No seleccionado</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SCHEDULE SECTION -->
+    <div id="scheduleSection">
+      <h3 class="h6 fw-semibold text-uc-secondary mb-3" id="scheduleSectionTitle">Horarios Disponibles</h3>
+
+      <!-- SCHEDULE OPTIONS -->
+      <form id="scheduleForm">
       <!-- OPTION 1 -->
       <div class="schedule-option" onclick="selectSchedule(this, 'schedule-1')">
         <input type="radio" name="schedule" value="schedule-1" id="schedule-1">
@@ -172,6 +196,7 @@
         </div>
       </div>
     </form>
+    </div>
 
     <!-- INFO BANNER -->
     <div class="alert alert-info d-flex align-items-start gap-2 mb-4 d-none">
@@ -183,7 +208,7 @@
     </div>
 
     <!-- NAVIGATION BUTTONS -->
-    <button class="btn btn-primary btn-lg w-100 mb-3" onclick="goToVehicle()">
+    <button class="btn btn-primary btn-lg w-100 mb-3" id="continueBtn" onclick="goToVehicle()" disabled>
       Continuar
     </button>
 
@@ -197,32 +222,202 @@
 
   <!-- JAVASCRIPT -->
   <script>
+    const tripType = localStorage.getItem('tripType') || 'oneway';
+    const selectedDate = localStorage.getItem('selectedDate');
+    const selectedReturnDate = localStorage.getItem('selectedReturnDate');
+
+    let selectedOutboundSchedule = null;
+    let selectedReturnSchedule = null;
+    let isSelectingReturn = false;
+
+    // Schedule data mapping
+    const scheduleData = {
+      'schedule-1': '06:00 AM',
+      'schedule-2': '09:00 AM',
+      'schedule-3': '12:00 PM',
+      'schedule-4': '15:00 PM',
+      'schedule-5': '18:00 PM'
+    };
+
+    // Initialize page based on trip type
+    function initializePage() {
+      console.log('Trip type:', tripType);
+
+      // Update context info
+      if (selectedDate) {
+        const date = new Date(selectedDate);
+        const options = { weekday: 'long', day: 'numeric', month: 'short', year: 'numeric' };
+        document.getElementById('dateDisplay').textContent = date.toLocaleDateString('es-ES', options);
+      }
+
+      if (tripType === 'roundtrip') {
+        document.getElementById('pageTitle').textContent = 'Selecciona tus horarios';
+        document.getElementById('scheduleSectionTitle').textContent = 'Selecciona horario de ida';
+        document.getElementById('infoBannerText').textContent = 'Selecciona primero el horario de ida y luego el de vuelta';
+
+        // Show return date
+        if (selectedReturnDate) {
+          const returnDate = new Date(selectedReturnDate);
+          const options = { weekday: 'long', day: 'numeric', month: 'short', year: 'numeric' };
+          document.getElementById('returnDateDisplay').textContent = returnDate.toLocaleDateString('es-ES', options);
+          document.getElementById('returnDateRow').style.display = 'flex';
+          document.getElementById('returnDateRow').classList.remove('d-none');
+        }
+
+        // Show selected schedules display
+        document.getElementById('selectedSchedulesDisplay').style.display = 'block';
+      }
+    }
+
+    function updateVisualIndicators() {
+      // Clear all selections
+      document.querySelectorAll('#scheduleForm .schedule-option').forEach(opt => {
+        opt.classList.remove('schedule-option--selected');
+        // Remove any existing badges
+        const existingBadge = opt.querySelector('.schedule-badge');
+        if (existingBadge) existingBadge.remove();
+      });
+
+      // Add visual indicators for selected schedules
+      if (selectedOutboundSchedule) {
+        const outboundEl = document.querySelector(`#scheduleForm .schedule-option[onclick*="${selectedOutboundSchedule}"]`);
+        if (outboundEl) {
+          outboundEl.classList.add('schedule-option--selected');
+          // Add "IDA" badge
+          const badge = document.createElement('span');
+          badge.className = 'schedule-badge';
+          badge.textContent = 'IDA';
+          badge.style.cssText = 'position: absolute; top: 10px; right: 10px; background: #162B6B; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: bold;';
+          outboundEl.style.position = 'relative';
+          outboundEl.appendChild(badge);
+        }
+      }
+
+      if (selectedReturnSchedule) {
+        const returnEl = document.querySelector(`#scheduleForm .schedule-option[onclick*="${selectedReturnSchedule}"]`);
+        if (returnEl) {
+          returnEl.classList.add('schedule-option--selected');
+          // Add "VUELTA" badge
+          const badge = document.createElement('span');
+          badge.className = 'schedule-badge';
+          badge.textContent = 'VUELTA';
+          badge.style.cssText = 'position: absolute; top: 10px; right: 10px; background: #0EA5E9; color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.7rem; font-weight: bold;';
+          returnEl.style.position = 'relative';
+          returnEl.appendChild(badge);
+        }
+      }
+    }
+
     function selectSchedule(element, scheduleId) {
       // Check if disabled
       if (element.classList.contains('schedule-option--disabled')) {
         return;
       }
 
-      // Remove previous selection
-      document.querySelectorAll('.schedule-option').forEach(opt => {
-        opt.classList.remove('schedule-option--selected');
-      });
+      if (tripType === 'roundtrip') {
+        // Roundtrip logic
+        if (!selectedOutboundSchedule || (selectedOutboundSchedule && selectedReturnSchedule)) {
+          // First selection or reset: select outbound schedule
+          selectedOutboundSchedule = scheduleId;
+          selectedReturnSchedule = null;
+          isSelectingReturn = true;
 
-      // Add selection
-      element.classList.add('schedule-option--selected');
+          // Update display
+          document.getElementById('selectedOutboundScheduleText').textContent = scheduleData[scheduleId];
+          document.getElementById('selectedReturnScheduleText').textContent = 'No seleccionado';
+          document.getElementById('returnScheduleCol').style.display = 'block';
 
-      // Check the radio button
-      document.getElementById(scheduleId).checked = true;
+          // Update title
+          document.getElementById('scheduleSectionTitle').textContent = 'Ahora selecciona horario de vuelta';
 
-      // Store selected schedule
-      localStorage.setItem('selectedSchedule', scheduleId);
+          // Store in localStorage
+          localStorage.setItem('selectedSchedule', scheduleId);
+          localStorage.removeItem('selectedReturnSchedule');
+
+          // Disable continue button (need return schedule)
+          enableContinueButton();
+
+          // Update visual indicators
+          updateVisualIndicators();
+        } else if (selectedOutboundSchedule && !selectedReturnSchedule) {
+          // Second selection: select return schedule
+          selectedReturnSchedule = scheduleId;
+          isSelectingReturn = false;
+
+          // Update display
+          document.getElementById('selectedReturnScheduleText').textContent = scheduleData[scheduleId];
+
+          // Store in localStorage
+          localStorage.setItem('selectedReturnSchedule', scheduleId);
+
+          // Update visual indicators
+          updateVisualIndicators();
+
+          // Enable continue button (both schedules selected)
+          enableContinueButton();
+        }
+      } else {
+        // Oneway logic: simple selection
+        selectedOutboundSchedule = scheduleId;
+
+        // Remove previous selection
+        document.querySelectorAll('#scheduleForm .schedule-option').forEach(opt => {
+          opt.classList.remove('schedule-option--selected');
+        });
+
+        // Add selection
+        element.classList.add('schedule-option--selected');
+
+        // Check the radio button
+        document.getElementById(scheduleId).checked = true;
+
+        // Store selected schedule
+        localStorage.setItem('selectedSchedule', scheduleId);
+
+        // Enable continue button
+        enableContinueButton();
+      }
+    }
+
+    function enableContinueButton() {
+      const continueBtn = document.getElementById('continueBtn');
+      if (tripType === 'roundtrip') {
+        // For roundtrip, need both schedules
+        if (selectedOutboundSchedule && selectedReturnSchedule) {
+          continueBtn.disabled = false;
+        } else {
+          continueBtn.disabled = true;
+        }
+      } else {
+        // For oneway, just need outbound
+        if (selectedOutboundSchedule) {
+          continueBtn.disabled = false;
+        } else {
+          continueBtn.disabled = true;
+        }
+      }
     }
 
     function goToVehicle() {
-      const selectedSchedule = document.querySelector('input[name="schedule"]:checked');
-      if (selectedSchedule) {
-        window.location.href = 'step2-vehicle.html';
+      if (!selectedOutboundSchedule) {
+        alert('Por favor selecciona un horario');
+        return;
       }
+
+      // For roundtrip, check if return schedule is also selected
+      if (tripType === 'roundtrip' && !selectedReturnSchedule) {
+        alert('Por favor selecciona también un horario de vuelta');
+        return;
+      }
+
+      window.location.href = 'step2-vehicle.html';
+    }
+
+    // Initialize when DOM is ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initializePage);
+    } else {
+      initializePage();
     }
   </script>
 

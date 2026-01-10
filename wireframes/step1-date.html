@@ -54,7 +54,17 @@
 
   <!-- CONTENT -->
   <div class="container py-4" style="max-width: 800px;">
-    <h2 class="h4 fw-bold text-uc-secondary mb-4">Selecciona la fecha de tu viaje</h2>
+    <h2 class="h4 fw-bold text-uc-secondary mb-4" id="pageTitle">Selecciona la fecha de tu viaje</h2>
+
+    <!-- INFO BANNER FOR ROUND TRIP -->
+    <div class="alert alert-info d-flex align-items-start gap-2 mb-4" id="roundtripInfo" style="display: none !important;">
+      <div class="fs-5">ℹ️</div>
+      <div>
+        <p class="mb-0 small">
+          Selecciona tu fecha de ida y luego tu fecha de vuelta
+        </p>
+      </div>
+    </div>
 
     <!-- CALENDAR -->
     <div class="calendar mb-4">
@@ -99,23 +109,37 @@
     </div>
 
     <!-- SELECTED DATE DISPLAY -->
-    <div id="selectedDateDisplay" class="card mb-4" style="display: none;">
-      <div class="card-body">
-        <div class="text-muted small mb-2">Fecha seleccionada:</div>
-        <div class="text-center py-3">
-          <div class="fs-5 fw-bold text-uc-secondary" id="selectedDateText">
-            Viernes, 29 de Diciembre 2025
+    <div id="selectedDateDisplay" class="mb-4" style="display: none;">
+      <div class="row g-3">
+        <div class="col-12 col-md-6" id="outboundDateCol">
+          <div class="card">
+            <div class="card-body">
+              <div class="text-muted small mb-2" id="outboundDateLabel">Fecha de ida:</div>
+              <div class="text-center py-2">
+                <div class="fs-5 fw-bold text-uc-secondary" id="selectedDateText">
+                  Viernes, 29 de Diciembre 2025
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="d-flex align-items-center justify-content-center gap-2 mt-2">
-            <span class="badge rounded-pill" style="background-color: var(--color-success); width: 10px; height: 10px; padding: 0;"></span>
-            <small class="text-muted">Alta disponibilidad</small>
+        </div>
+        <div class="col-12 col-md-6" id="returnDateCol" style="display: none;">
+          <div class="card">
+            <div class="card-body">
+              <div class="text-muted small mb-2">Fecha de vuelta:</div>
+              <div class="text-center py-2">
+                <div class="fs-5 fw-bold text-uc-secondary" id="selectedReturnDateText">
+                  Domingo, 31 de Diciembre 2025
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
 
     <!-- NAVIGATION BUTTONS -->
-    <button class="btn btn-primary btn-lg w-100 mb-3" id="continueBtn" onclick="goToSchedule()" disabled style="display: none;">
+    <button class="btn btn-primary btn-lg w-100 mb-3" id="continueBtn" onclick="goToSchedule()" disabled>
       Continuar
     </button>
 
@@ -130,6 +154,9 @@
   <!-- JAVASCRIPT -->
   <script>
     let selectedDate = null;
+    let selectedReturnDate = null;
+    let tripType = localStorage.getItem('tripType') || 'oneway';
+    let isSelectingReturn = false;
 
     // Initialize with TODAY'S month and year
     const today = new Date();
@@ -142,6 +169,20 @@
     ];
 
     const daysOfWeek = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
+
+    // Check trip type on page load
+    function initializePage() {
+      console.log('Trip type:', tripType);
+
+      if (tripType === 'roundtrip') {
+        document.getElementById('pageTitle').textContent = 'Selecciona las fechas de tu viaje';
+        document.getElementById('roundtripInfo').style.display = 'flex';
+        document.getElementById('roundtripInfo').classList.remove('d-none');
+        document.getElementById('outboundDateLabel').textContent = 'Fecha de ida:';
+      } else {
+        document.getElementById('outboundDateLabel').textContent = 'Fecha seleccionada:';
+      }
+    }
 
     // Generate calendar
     function generateCalendar() {
@@ -181,6 +222,8 @@
         dayElement.textContent = day;
         dayElement.style.cursor = 'pointer';
 
+        const thisDate = new Date(currentYear, currentMonth, day);
+
         // Check if this date is in the past
         let isPast = false;
 
@@ -215,6 +258,21 @@
             dayElement.style.cursor = 'not-allowed';
           }
 
+          // Check if this date is selected
+          if (selectedDate && thisDate.toDateString() === selectedDate.toDateString()) {
+            dayElement.classList.add('calendar__day--selected');
+          }
+
+          // Check if this date is the return date
+          if (selectedReturnDate && thisDate.toDateString() === selectedReturnDate.toDateString()) {
+            dayElement.classList.add('calendar__day--selected');
+          }
+
+          // Check if this date is in the range
+          if (isDateInRange(thisDate)) {
+            dayElement.style.backgroundColor = '#e8f4f8';
+          }
+
           // Click handler for available dates (not full/disabled)
           if (!dayElement.classList.contains('calendar__day--disabled')) {
             dayElement.addEventListener('click', function() {
@@ -229,8 +287,10 @@
             });
 
             dayElement.addEventListener('mouseleave', function() {
-              if (!this.classList.contains('calendar__day--selected')) {
+              if (!this.classList.contains('calendar__day--selected') && !isDateInRange(thisDate)) {
                 this.style.backgroundColor = '';
+              } else if (isDateInRange(thisDate)) {
+                this.style.backgroundColor = '#e8f4f8';
               }
             });
           }
@@ -240,35 +300,81 @@
       }
     }
 
+    // Check if a date is in the selected range
+    function isDateInRange(date) {
+      if (!selectedDate || !selectedReturnDate) return false;
+      return date > selectedDate && date < selectedReturnDate;
+    }
+
     // Select date
     function selectDate(day, element) {
-      // Remove previous selection
-      document.querySelectorAll('.calendar__day').forEach(d => {
-        d.classList.remove('calendar__day--selected');
-      });
+      const clickedDate = new Date(currentYear, currentMonth, day);
 
-      // Add selection
-      element.classList.add('calendar__day--selected');
+      if (tripType === 'roundtrip') {
+        // Roundtrip logic
+        if (!selectedDate || (selectedDate && selectedReturnDate)) {
+          // First selection or reset: select outbound date
+          selectedDate = clickedDate;
+          selectedReturnDate = null;
+          isSelectingReturn = true;
 
-      // Store selected date
-      selectedDate = new Date(currentYear, currentMonth, day);
+          // Update display
+          const dayOfWeek = daysOfWeek[selectedDate.getDay()];
+          const dateText = `${dayOfWeek}, ${day} de ${months[currentMonth]} ${currentYear}`;
+          document.getElementById('selectedDateText').textContent = dateText;
+          document.getElementById('selectedDateDisplay').style.display = 'block';
+          document.getElementById('returnDateCol').style.display = 'none';
 
-      // Update display
-      const dayOfWeek = daysOfWeek[selectedDate.getDay()];
-      const dateText = `${dayOfWeek}, ${day} de ${months[currentMonth]} ${currentYear}`;
-      document.getElementById('selectedDateText').textContent = dateText;
-      document.getElementById('selectedDateDisplay').style.display = 'block';
+          // Store in localStorage
+          localStorage.setItem('selectedDate', selectedDate.toISOString());
+          localStorage.removeItem('selectedReturnDate');
 
-      // Enable continue button
-      document.getElementById('continueBtn').disabled = false;
+          // Disable continue button (need return date)
+          document.getElementById('continueBtn').disabled = true;
 
-      // Store in localStorage
-      localStorage.setItem('selectedDate', selectedDate.toISOString());
+          // Regenerate calendar to show only outbound selected
+          generateCalendar();
+        } else if (selectedDate && !selectedReturnDate) {
+          // Second selection: select return date
+          if (clickedDate <= selectedDate) {
+            alert('La fecha de vuelta debe ser posterior a la fecha de ida');
+            return;
+          }
 
-      // Auto-navigate to next step after short delay (visual feedback)
-      setTimeout(() => {
-        window.location.href = 'step3-schedule.html';
-      }, 300);
+          selectedReturnDate = clickedDate;
+          isSelectingReturn = false;
+
+          // Update display
+          const dayOfWeek = daysOfWeek[selectedReturnDate.getDay()];
+          const dateText = `${dayOfWeek}, ${day} de ${months[currentMonth]} ${currentYear}`;
+          document.getElementById('selectedReturnDateText').textContent = dateText;
+          document.getElementById('returnDateCol').style.display = 'block';
+
+          // Store in localStorage
+          localStorage.setItem('selectedReturnDate', selectedReturnDate.toISOString());
+
+          // Enable continue button
+          document.getElementById('continueBtn').disabled = false;
+
+          // Regenerate calendar to show range
+          generateCalendar();
+        }
+      } else {
+        // Oneway logic: simple selection
+        selectedDate = clickedDate;
+
+        // Update display
+        const dayOfWeek = daysOfWeek[selectedDate.getDay()];
+        const dateText = `${dayOfWeek}, ${day} de ${months[currentMonth]} ${currentYear}`;
+        document.getElementById('selectedDateText').textContent = dateText;
+        document.getElementById('selectedDateDisplay').style.display = 'block';
+
+        // Store in localStorage
+        localStorage.setItem('selectedDate', selectedDate.toISOString());
+
+        // Enable continue button
+        document.getElementById('continueBtn').disabled = false;
+      }
     }
 
     // Navigate months
@@ -295,14 +401,23 @@
     // Navigate to schedule
     function goToSchedule() {
       if (selectedDate) {
+        // For roundtrip, check if return date is also selected
+        if (tripType === 'roundtrip' && !selectedReturnDate) {
+          alert('Por favor selecciona también la fecha de vuelta');
+          return;
+        }
         window.location.href = 'step3-schedule.html';
       }
     }
 
     // Initialize when DOM is ready
     if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', generateCalendar);
+      document.addEventListener('DOMContentLoaded', function() {
+        initializePage();
+        generateCalendar();
+      });
     } else {
+      initializePage();
       generateCalendar();
     }
   </script>

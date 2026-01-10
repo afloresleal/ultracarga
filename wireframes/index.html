@@ -51,6 +51,22 @@
       </div>
       <h2 class="h4 fw-bold text-uc-secondary mb-4">Selecciona tu ruta</h2>
 
+      <!-- ROUNDTRIP TOGGLE -->
+      <div class="mb-4 p-3 rounded" style="background-color: #f8f9fa; border: 1px solid #e9ecef;">
+        <div class="d-flex align-items-center justify-content-between">
+          <div class="d-flex align-items-center gap-2">
+            <span style="font-size: 1.25rem;">🔄</span>
+            <div>
+              <div class="fw-semibold text-uc-secondary" style="font-size: 0.95rem;">¿Viaje de ida y vuelta?</div>
+              <small class="text-muted">Aplica a cualquier ruta seleccionada</small>
+            </div>
+          </div>
+          <div class="form-check form-switch m-0">
+            <input class="form-check-input" type="checkbox" role="switch" id="roundtripCheckbox" style="width: 3rem; height: 1.5rem; cursor: pointer;">
+          </div>
+        </div>
+      </div>
+
       <div class="row g-3">
         <!-- ROUTE CARD 1 -->
         <div class="col-12 col-md-6">
@@ -149,8 +165,8 @@
       console.log('selectRoute() called with routeId:', routeId);
 
       try {
-        // Remove selection from all cards
-        document.querySelectorAll('.card-selectable').forEach(c => {
+        // Remove selection from all route cards
+        document.querySelectorAll('#routes .card-selectable').forEach(c => {
           c.classList.remove('selected');
         });
 
@@ -160,6 +176,12 @@
         // Store selected route
         localStorage.setItem('selectedRoute', routeId);
         console.log('Stored in localStorage:', localStorage.getItem('selectedRoute'));
+
+        // Check if roundtrip checkbox is checked
+        const isRoundtrip = document.getElementById('roundtripCheckbox').checked;
+        const tripType = isRoundtrip ? 'roundtrip' : 'oneway';
+        localStorage.setItem('tripType', tripType);
+        console.log('Trip type:', tripType);
 
         console.log('Navigating to step1-date.html in 300ms...');
 
@@ -177,6 +199,7 @@
     function addEventListeners() {
       console.log('=== ADDING EVENT LISTENERS ===');
 
+      // Route cards
       const card1 = document.getElementById('routeCard1');
       const card2 = document.getElementById('routeCard2');
 
